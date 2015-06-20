@@ -1,0 +1,98 @@
+<div class="row mytask-container">
+    <div class="col-md-4 mytask-list">
+        <div class="" ng-repeat="item in mytaskCtrl.myTasks" ng-if="item.status == 2">
+            <div class="col-md-11 thumbnail mytask-item">
+                <div>
+                    <div class="pull-right mytask-action">
+                        <a href="#" ng-click="$event.preventDefault(); mytaskCtrl.viewProgress(item.id); mytaskCtrl.selectedTask(item.id)"><i class="fa fa-eye"></i> View</a>
+                    </div>
+                    <div class="mytask-name" ng-text-truncate="item.task_name" ng-tt-words-threshold="7" ng-tt-no-toggling></div>
+                </div>
+
+                <div class="mytask-date text-right" ng-class="{normal: item.priority_alias == 'normal', immediate: item.priority_alias == 'immediate', urgent: item.priority_alias == 'urgent'}"><small>{{item.start_date | date:'dd/MM'}} - {{item.end_date | date:'dd/MM'}}</small> <small><small>[{{item.priority_name}}]</small></small></div>
+                <div class="mytask-description" ng-text-truncate="item.description" ng-tt-words-threshold="15" ng-tt-more-label="More" ng-tt-less-label="Hide"></div>
+            </div>
+            <div class="col-md-1 arrow pull-right" ng-class="{hide: mytaskCtrl.isHide(item.id)}"></div>
+            
+        </div>
+    </div>
+    
+    
+    <div class="col-md-6 progress-list" ng-controller="ProgressController as progressCtrl"  ng-hide="!progressCtrl.showForm">
+        <div class="container-fluid">
+            <div class="progress-container-item" ng-hide="progressCtrl.progressList.length == 0"  ng-repeat="item in progressCtrl.progressList">
+                <div class="progress-item">
+                    <div>{{item.note}}</div>
+                    <div><small><small>{{item.created}}</small></small></div>
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="{{item.rate}}" aria-valuemin="0" aria-valuemax="100" style="width: {{item.rate}}%">{{item.rate}}% Completed</div>
+                    </div>
+                    <div class="progress-action"><a href="#" ng-click="$event.preventDefault(); showComments = !showComments; progressCtrl.getListComments(item.id, item.task_id, showComments);"><i class="fa fa-comments-o"></i> Comments</a></div>
+                </div>
+                
+                <div class="container-fluid comments" ng-show="showComments">
+                    <div class="comments-list">
+                        <div class="comment-container clearfix" ng-repeat="comment in progressCtrl.comments[item.id]">
+                            
+                            <div class="comment-by" ng-class="comment.comment_by != progressCtrl.user_id ? 'pull-left left' : 'pull-right right'">
+                                <span ng-show="comment.comment_by != progressCtrl.user_id">{{comment.first_name + ' ' + comment.surname}}</span>
+                                <span ng-show="comment.comment_by == progressCtrl.user_id">Me</span>
+                            </div>
+
+                            <div class="comment-box" ng-class="comment.comment_by != progressCtrl.user_id ? 'left pull-left' : 'right pull-right'">
+                                <div class="comment-box-content" ng-class="{'text-right': comment.comment_by == progressCtrl.user_id}">
+                                    {{comment.content}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!--div>
+                        <hr/>
+                        <form name="{{comment_form}}" ng-init="comment_form= 'commentForm_' + $index">
+                            <div class="form-group">
+                                <div class="clearfix">
+                                    <textarea class="form-control comment-text" id="comment_text" name="comment_text" ng-model="progressCtrl.model_comment[$index]" placeholder="Leave your comment here!" required></textarea>
+                                    <button type="button" class="btn btn-xs btn-info pull-right" ng-click="progressCtrl.postComment(item.id, $index)" ng-disabled="{{comment_form}}.$invalid"><i class="fa fa-comment-o"></i> Post Comment!</button>
+                                </div>
+                            </div>
+                        </form>
+                                               
+                    </div-->
+                    
+                </div>
+            </div>
+
+            
+            
+            <!--div ng-init="progressCtrl.initCompletedPercent()">
+                <hr/>
+                <form name="progressForm" class="">
+                    <div class="form-group">
+                        <textarea class="form-control" id="note" name="note" ng-model="progressCtrl.note" placeholder="Note something you've done today!" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <ui-select id="rate" name="rate" ng-model="progressCtrl.rate.selected" theme="bootstrap" ng-disabled="disabled" title="Choose a percent" style="max-width: 100%;" required>
+                                    <ui-select-match placeholder="Select completed %">{{$select.selected.text}}</ui-select-match>
+                                    <ui-select-choices repeat="item in progressCtrl.completedPercent | filter: $select.search">
+                                        <span ng-bind-html="item.text | highlight: $select.search"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                            <div class="col-md-2">
+                                <button class="btn btn-success" ng-disabled="progressForm.$invalid" ng-click="progressCtrl.saveProgress()"><i class="fa fa-floppy-o"></i> Save</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div-->
+            
+        </div>
+        
+    </div>
+    
+</div>

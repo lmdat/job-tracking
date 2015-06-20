@@ -1,0 +1,62 @@
+<div class="row mytask-container" ng-controller="CompletedTasksController as completedTaskCtrl">
+    <div class="col-md-4 mytask-list" ng-init="completedTaskCtrl.getCompletedTasksList()">
+        <div class="" ng-repeat="item in completedTaskCtrl.completedTasksList" ng-if="item.status == 2">
+            <div class="col-md-11 thumbnail mytask-item">
+                <div class="action-container">
+                    <div class="mytask-action">
+                        <a href="#" ng-click="$event.preventDefault(); completedTaskCtrl.viewProgress($event, item.id); completedTaskCtrl.selectedTask(item.id)"><i class="fa fa-eye"></i> View</a>
+                    </div>
+                    <div class="mytask-name" ng-text-truncate="item.task_name" ng-tt-words-threshold="8" ng-tt-no-toggling></div>
+                </div>
+
+                <div class="mytask-date text-right" ng-class="{normal: item.priority_alias == 'normal', immediate: item.priority_alias == 'immediate', urgent: item.priority_alias == 'urgent'}"><small>{{item.start_date | date:'dd/MM'}} - {{item.end_date | date:'dd/MM'}}</small> <small><small>[{{item.priority_name}}]</small></small></div>
+                <div class="mytask-description" ng-text-truncate="item.description" ng-tt-words-threshold="15" ng-tt-more-label="More" ng-tt-less-label="Hide"></div>
+            </div>
+            <div class="col-md-1 arrow pull-right" ng-class="{hide: completedTaskCtrl.isHide(item.id)}"></div>
+            
+        </div>
+    </div>
+    
+    <div id="completed-progress-list" class="col-md-6 progress-list" ng-controller="ProgressController as progressCtrl" ng-show="progressCtrl.showForm">
+         <div class="container-fluid">
+             <div class="spinner animated" ng-class="progressCtrl.showProgressList == false ? 'fadeIn' : 'hide'"><i class="fa fa-spinner fa-spin"></i> Please be patient...</div>             
+             
+             <div class="animated" ng-class="progressCtrl.showProgressList == true ? 'zoomIn' : 'bounceOutRight'" >
+                <div class="progress-container-item" ng-repeat="item in progressCtrl.progressList">
+                    <div class="progress-item">
+                        <div>{{item.note}}</div>
+                        <div><small><small>{{item.created}}</small></small></div>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="{{item.rate}}" aria-valuemin="0" aria-valuemax="100" style="width: {{item.rate}}%">{{item.rate}}% Completed</div>
+                        </div>
+                        <div class="progress-action"><a href="#" ng-click="$event.preventDefault(); toggleComments=!toggleComments; progressCtrl.getListComments(item.id, item.task_id, toggleComments); progressCtrl.refreshComments(item.id)"><i class="fa fa-comments-o"></i> Comments</a></div>
+                    </div>
+
+                    <div class="container-fluid comments" ng-show="toggleComments">
+                        <div class="spinner animated" ng-class="showCommentsList == false ? 'fadeIn' : 'hide'"><i class="fa fa-spinner fa-spin"></i> Loading...</div>
+                        <div class="comments-list animated" ng-class="showCommentsList==true ? 'fadeIn' : 'fadeOut'">
+                            <div class="comment-container clearfix" ng-repeat="comment in progressCtrl.comments[item.id]">
+
+                                <div class="comment-by" ng-class="comment.comment_by != progressCtrl.user_id ? 'pull-left left' : 'pull-right right'">
+                                    <span ng-show="comment.comment_by != progressCtrl.user_id">{{comment.first_name + ' ' + comment.surname}}</span>
+                                    <span ng-show="comment.comment_by == progressCtrl.user_id">Me</span>
+                                </div>
+
+                                <div class="comment-box" ng-class="comment.comment_by != progressCtrl.user_id ? 'left pull-left' : 'right pull-right'">
+                                    <div class="comment-box-content" ng-class="{'text-right': comment.comment_by == progressCtrl.user_id}">
+                                        {{comment.content}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            
+        </div>
+        
+    </div>
+    
+    
+</div>

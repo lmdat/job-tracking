@@ -1,0 +1,31 @@
+<section ng-controller="AuthenticationController as authCtrl">
+    
+    <div class="col-xs-offset-2 col-xs-8 col-md-offset-4 col-md-4 signin-form">
+        <div ng-hide="error_msg == ''" class="row alert alert-msg alert-danger" role="alert">
+            <strong>Oh snap!</strong> {{error_msg}}
+        </div>
+        <form class="form-horizontal" method="post" ng-submit="authCtrl.signin()" autocomplete="off">
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-addon" id="email-addon"><i class="fa fa-envelope"></i></span>
+                    <input type="email" class="form-control" name="username" id="username" ng-model="authCtrl.credentials.username" placeholder="Email" aria-describedby="email-addon"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-addon" id="password-addon"><i class="fa fa-key"></i></span>
+                    <input type="password" class="form-control" name="password" id="password" ng-model="authCtrl.credentials.password" placeholder="Password" aria-describedby="password-addon"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-8" style="padding-left:0px">
+                    <button type="submit" name="signin" id="signin" class="btn btn-success btn-block">Sign in</button>
+                </div>
+                <span class="forget-password"><a ui-sref="user-forget-password">Forget Password?</a></span>
+            </div>
+            
+        </form>
+    </div>
+</section>

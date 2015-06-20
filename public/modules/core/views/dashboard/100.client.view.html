@@ -1,0 +1,27 @@
+<div class="row container-fluid dashboard" ng-init="dashboardCtrl.initData100()">
+    
+    <div class="container-fluid">
+        <div class="page-header">
+            <h4>My Tasks <small>Statistics</small></h4>
+        </div>
+
+        <div class="spinner animated" ng-class="dashboardCtrl.showYourStatusTasksList == false ? 'fadeIn' : 'hide'"><i class="fa fa-spinner fa-spin"></i> Please be patient...</div>
+
+        <div class="animated" ng-class="dashboardCtrl.showYourStatusTasksList == true ? 'fadeIn' : 'hide'">
+            <div class="col-sm-4" ng-repeat="item in dashboardCtrl.yourStatusTasksList">
+                <div class="thumbnail item-box" ng-class="{'pending-task': item.name=='pending', 'ongoing-task': item.name=='ongoing', 'completed-task': item.name=='completed'}">
+                    <div class="box-content">
+                        <span class="box-icon"><i class="fa fa-tasks"></i></span>
+                        <div class="pull-right text-right">
+                            <div class="task-counter">{{item.count}}</div>
+                            <div class="task-name">{{item.name_text}}</div>
+                        </div>
+                    </div>
+                    <div class="footer-box">aaa
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

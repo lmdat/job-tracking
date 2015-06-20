@@ -1,0 +1,9 @@
+{
+    "require": {
+        "slim/slim": "^2.6",
+        "twig/twig": "^1.18",
+        "slim/extras": "^2.0",
+        "slim/middleware": "^1.0",
+        "illuminate/database": "^5.0"
+    }
+}

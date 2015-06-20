@@ -1,0 +1,73 @@
+<div class="row container-fluid dashboard" ng-init="dashboardCtrl.initData900()">
+    
+    <div class="container-fluid">
+        <div class="page-header">
+            <h4>Tasks Assigned For Users <small>Statistics</small></h4>
+        </div>
+        <div class="spinner animated" ng-class="dashboardCtrl.showOnwerStatusTasksList == false ? 'fadeIn' : 'hide'"><i class="fa fa-spinner fa-spin"></i> Please be patient...</div>
+
+        <div class="animated" ng-class="dashboardCtrl.showOnwerStatusTasksList == true ? 'fadeIn' : 'hide'">
+            
+            <div class="col-sm-4" ng-repeat="item in dashboardCtrl.onwerStatusTasksList">
+                <div class="thumbnail item-box" ng-class="{'pending-task': item.name=='pending', 'ongoing-task': item.name=='ongoing', 'completed-task': item.name=='completed'}">
+                    <div class="box-content">
+                        <span class="box-icon"><i class="fa fa-tasks"></i></span>
+                        <div class="pull-right text-right">
+                            <div class="task-counter">{{item.count}}</div>
+                            <div class="task-name">{{item.name_text}}</div>
+                        </div>
+                    </div>
+                    <div class="footer-box">aaa
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    
+    <div class="container-fluid">
+        <div class="page-header">
+            <h4>User's Tasks <small>Statistics</small></h4>
+        </div>
+        <div class="spinner animated" ng-class="dashboardCtrl.showUserTasksList == false ? 'fadeIn' : 'hide'"><i class="fa fa-spinner fa-spin"></i> Please be patient...</div>
+        
+        <div class="animated" ng-class="dashboardCtrl.showUserTasksList == true ? 'fadeIn' : 'hide'">
+            <ul class="list-group">
+                <li class="list-group-item" ng-repeat="item in dashboardCtrl.userTasksList">
+                    <i class="fa fa-user"></i> <a ui-sref="user-tasks({user_id: item.id})">{{item.first_name + ' ' + item.surname}}</a> <small>{{item.title}}</small>
+                    <div class="pull-right">
+                        <span class="label label-default status-label" ng-repeat="status in item.task_status" ng-class="{'label-pending': status.name=='pending', 'label-ongoing': status.name=='ongoing', 'label-completed': status.name=='completed'}">
+                            {{status.name_text}}: {{status.count}}
+                        </span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    
+    
+    <div id="top-button" class="sticky circle button-right-20" title="Go on top"><i class="fa fa-arrow-up"></i></div>
+    
+    
+    <script>
+        $(function(){
+            var offset = 60;
+            var duration = 500;
+            $(window).scroll(function() {
+                if ($(this).scrollTop() > offset){
+                    $('.sticky').fadeIn(duration);
+                }
+                else{
+                    $('.sticky').fadeOut(duration);
+                }
+            });
+
+            $('#top-button').click(function(event) {
+                event.preventDefault();
+                $('html, body').animate({scrollTop: 0}, duration);
+                return false;
+            });
+        });
+    </script>
+    
+</div>

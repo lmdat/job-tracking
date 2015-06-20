@@ -1,0 +1,87 @@
+<section ng-controller="UpdateTaskController as updateTaskCtrl" ng-init="updateTaskCtrl.initUpdateForm();">
+    <div class="modal-header">
+        <h3>Edit Task</h3>
+    </div>
+    
+    <div class="modal-body">
+        
+        <div class="spinner animated" ng-class="updateTaskCtrl.showUpdateForm == false ? 'fadeIn' : 'hide'"><i class="fa fa-spinner fa-spin"></i> Loading...</div>
+        
+        <div class="animated" ng-class="updateTaskCtrl.showUpdateForm == true ? 'fadeIn' : 'hide'">
+            <form name="updateTaskForm" class="form-horizontal">
+                <div class="form-group" ng-class="{'has-error': updateTaskForm.task_name.$invalid}">
+                    <label for="task_name" class="col-sm-3 control-label">Name</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="task_name" name="task_name" ng-model="updateTaskCtrl.task.task_name" placeholder="Task's Name" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="priority_id" class="col-sm-3 control-label">Priority</label>
+                    <div class="col-sm-8">
+
+                        <label class="radio-inline" ng-repeat="prio in updateTaskCtrl.priority_list">
+                            <input type="radio" name="priority_id" id="priority_id" ng-model="updateTaskCtrl.task.priority_id" value="{{prio.level}}"> <span class="priority" ng-class="{'normal-color': prio.alias=='normal', 'immediate-color': prio.alias=='immediate', 'urgent-color': prio.alias=='urgent'}">{{prio.priority_name}}</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-class="{'has-error': updateTaskForm.start_date.$invalid}">
+                    <label for="start_date" class="col-sm-3 control-label">Start Date</label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="start_date" name="start_date" datepicker-popup="{{updateTaskCtrl.datePicker.dateFormat}}" datepicker-options="{{updateTaskCtrl.datePicker.dateOptions}}" ng-model="updateTaskCtrl.task.start_date" is-open="updateTaskCtrl.datePicker.opened.start_date" close-text="Close" placeholder="yyyy-mm-dd" required/>
+
+                      <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="updateTaskCtrl.datePicker.open($event, 'start_date')"><i class="fa fa-calendar"></i>
+    </button>
+                  </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-class="{'has-error': updateTaskForm.end_date.$invalid}">
+                    <label for="end_date" class="col-sm-3 control-label">End Date</label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="end_date" name="end_date" datepicker-popup="{{updateTaskCtrl.datePicker.dateFormat}}" datepicker-options="{{updateTaskCtrl.datePicker.dateOptions}}" ng-model="updateTaskCtrl.task.end_date" is-open="updateTaskCtrl.datePicker.opened.end_date" close-text="Close" placeholder="yyyy-mm-dd" required/>
+
+                      <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="updateTaskCtrl.datePicker.open($event, 'end_date')"><i class="fa fa-calendar"></i>
+    </button>
+                  </span>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="description" class="col-sm-3 control-label">Description</label>
+                    <div class="col-sm-8">
+                        <textarea class="form-control" id="description" name="description" ng-model="updateTaskCtrl.task.description" placeholder="Description"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-class="{'has-error': updateTaskForm.user_id.$invalid}">
+                    <label for="description" class="col-sm-3 control-label">Assigned for</label>
+                    <div class="col-sm-8">
+                        <ui-select id="user_id" name="user_id" ng-model="updateTaskCtrl.user_id.selected" theme="bootstrap" ng-disabled="disabled" title="Choose a user" style="min-width: 100%;" required>
+                            <ui-select-match placeholder="Select or search a user in the list...">{{$select.selected.first_name}} {{$select.selected.surname}}</ui-select-match>
+                            <ui-select-choices repeat="user in updateTaskCtrl.users | filter: $select.search">
+                                <span ng-bind-html="user.first_name | highlight: $select.search"></span>
+                                <span ng-bind-html="user.surname | highlight: $select.search"></span>
+                                (<small ng-bind-html="user.title | highlight: $select.search"></small>)
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+    
+    <div class="modal-footer">
+        <button class="btn btn-warning" ng-click="updateTaskCtrl.updateTask(); ok();" ng-disabled="updateTaskForm.$invalid">Update & Close</button>
+        <button class="btn btn-danger" ng-click="cancel();">Cancel</button>
+    </div>
+</section>
