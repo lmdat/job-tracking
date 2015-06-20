@@ -1,0 +1,135 @@
+<div class="row mytask-container" ng-controller="OngoingTasksController as ongoingTaskCtrl">
+    <div class="col-md-4 mytask-list" ng-init="ongoingTaskCtrl.getOngoingTasksList()">
+        
+        <div class="spinner animated" ng-class="ongoingTaskCtrl.showOngoingTasksList == false ? 'fadeIn' : 'hide'"><i class="fa fa-spinner fa-spin"></i> Please be patient...</div>
+        
+        <div class="animated" ng-class="ongoingTaskCtrl.showOngoingTasksList == true ? 'zoomIn' : 'bounceOutRight'">
+            <div ng-repeat="item in ongoingTaskCtrl.ongoingTasksList">
+                <div class="col-md-11 thumbnail mytask-item" ng-if="item.status == 1">
+                    <div class="action-container">
+                        <div class="mytask-action">
+                            <a id="abc" href="#" ng-click="$event.preventDefault(); ongoingTaskCtrl.updateProgress($event, item.id); ongoingTaskCtrl.selectedTask(item.id)"><i class="fa fa-pencil"></i> Update</a>
+                        </div>
+                        <div class="mytask-name" ng-text-truncate="item.task_name" ng-tt-words-threshold="8" ng-tt-no-toggling></div>
+                    </div>
+
+                    <div class="mytask-date text-right" ng-class="{normal: item.priority_alias == 'normal', immediate: item.priority_alias == 'immediate', urgent: item.priority_alias == 'urgent'}"><small>{{item.start_date | date:'dd/MM'}} - {{item.end_date | date:'dd/MM'}}</small> <small><small>[{{item.priority_name}}]</small></small></div>
+                    <div class="mytask-description" ng-text-truncate="item.description" ng-tt-words-threshold="15" ng-tt-more-label="More" ng-tt-less-label="Hide"></div>
+                </div>
+                <div class="col-md-1 arrow pull-right" ng-class="{hide: ongoingTaskCtrl.isHide(item.id)}"></div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="ongoing-progress-list" class="col-md-6 progress-list" ng-controller="ProgressController as progressCtrl" ng-show="progressCtrl.showForm" ng-init="progressCtrl.initCompletedPercent()">
+        
+        <div class="container-fluid">
+            <div class="spinner animated" ng-class="progressCtrl.showProgressList == false ? 'fadeIn' : 'hide'"><i class="fa fa-spinner fa-spin"></i> Please be patient...</div>
+            
+            <div class="animated" ng-class="progressCtrl.showProgressList == true ? 'zoomIn' : 'bounceOutRight'" >
+                <div class="progress-container-item" ng-repeat="item in progressCtrl.progressList">
+                    
+                    <div class="progress-item">
+                        <div ng-hide="progressCtrl.update_toggle_form[item.id]">
+                            <div>{{item.note}}</div>
+                            <div><small><small>{{item.created}}</small></small></div>
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" aria-valuenow="{{item.rate}}" aria-valuemin="0" aria-valuemax="100" style="width: {{item.rate}}%">{{item.rate}}% Completed</div>
+                            </div>
+                            <div class="progress-action"><a href="#" ng-click="$event.preventDefault(); toggleComments= !toggleComments; progressCtrl.model_comment[item.id]=''; progressCtrl.getListComments(item.id, item.task_id, toggleComments); progressCtrl.refreshComments(item.id)"><i class="fa fa-comments-o"></i> Comments</a> | <a href="#" ng-click="$event.preventDefault(); progressCtrl.initUpdateForm(item)"><i class="fa fa-pencil-square-o"></i> Edit</a> <!--| <a href="#"><i class="fa fa-trash-o"></i> Delete</a> --></div>
+                        </div>
+                        
+                        <div class="progress-item" ng-show="progressCtrl.update_toggle_form[item.id]">
+                            <form name="{{update_form}}" ng-init="update_form = 'updateForm_' + $index">
+                                <div class="form-group">
+                                    <textarea class="form-control progress-note-edit" name="content_{{$index}}" id="content_{{$index}}" ng-model="progressCtrl.update_model_content[item.id]" required></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <ui-select id="rate" name="rate" ng-model="progressCtrl.update_model_rate[item.id].selected" theme="bootstrap" ng-disabled="disabled" title="Choose a percent" style="max-width: 100%;" required>
+                                                <ui-select-match placeholder="Select completed %">{{$select.selected.text}}</ui-select-match>
+                                                <ui-select-choices repeat="item1 in progressCtrl.completedPercent | filter: $select.search">
+                                                    <span ng-bind-html="item1.text | highlight: $select.search"></span>
+                                                </ui-select-choices>
+                                            </ui-select>
+                                        </div>
+
+                                        <button class="btn btn-success btn-sm" ng-disabled="{{update_form}}.$invalid" ng-click="progressCtrl.updateProgress(item)"><i class="fa fa-floppy-o"></i> Update</button> <button class="btn btn-warning btn-xs" ng-click="progressCtrl.update_toggle_form[item.id]=false"><i class="fa fa-arrow-left"></i> Close</button>
+                                    </div>
+                                    
+                                </div>
+                            </form>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+
+                    <div class="container-fluid comments" ng-show="toggleComments">
+                        <div class="spinner animated" ng-class="showCommentsList == false ? 'fadeIn' : 'hide'"><i class="fa fa-spinner fa-spin"></i> Loading...</div>
+                        <div class="comments-list animated" ng-class="showCommentsList == true ? 'fadeIn' : 'fadeOut'">
+                            <div class="comment-container clearfix" ng-repeat="comment in progressCtrl.comments[item.id]">
+
+                                <div class="comment-by" ng-class="comment.comment_by != progressCtrl.user_id ? 'pull-left left' : 'pull-right right'">
+                                    <span ng-show="comment.comment_by != progressCtrl.user_id">{{comment.first_name}}<br/>{{comment.surname}}</span>
+                                    <span ng-show="comment.comment_by == progressCtrl.user_id">Me</span>
+                                </div>
+
+                                <div class="comment-box" ng-class="comment.comment_by != progressCtrl.user_id ? 'left pull-left' : 'right pull-right'">
+                                    <div class="comment-box-content" ng-class="{'text-right': comment.comment_by == progressCtrl.user_id}">
+                                        {{comment.content}}
+                                    </div>
+                                    
+                                    <div class="comment-date" ng-class="{'text-right': comment.comment_by != progressCtrl.user_id}">{{comment.created}} <span ng-if="comment.comment_by == progressCtrl.user_id">| <a href="#" ng-click="$event.preventDefault(); progressCtrl.deleteComment(comment, item)"><i class="fa fa-trash-o"></i> Delete</a></span></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="animated" ng-class="{'bounceInRight': toggleComments == true}">
+                            <hr/>
+                            <form name="{{comment_form}}" ng-init="comment_form= 'commentForm_' + $index">
+                                <div class="form-group">
+                                    <div class="clearfix">
+                                        
+                                        <textarea class="form-control comment-text" id="comment_text" name="comment_text" ng-model="progressCtrl.model_comment[item.id]" placeholder="Leave your comment here!" required></textarea>
+                                        <button type="button" class="btn btn-xs btn-info pull-right" ng-click="progressCtrl.postComment(item)" ng-disabled="{{comment_form}}.$invalid"><i class="fa fa-comment-o"></i> Post Comment!</button>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="animated bounceInUp">
+                <hr/>
+                <form name="progressForm" class="">
+                    <div class="form-group">
+                        <textarea class="form-control progress-note" id="note" name="note" ng-model="progressCtrl.note" placeholder="Note something you've done today!" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <ui-select id="rate" name="rate" ng-model="progressCtrl.rate.selected" theme="bootstrap" ng-disabled="disabled" title="Choose a percent" style="max-width: 100%;" required>
+                                    <ui-select-match placeholder="Select completed %">{{$select.selected.text}}</ui-select-match>
+                                    <ui-select-choices repeat="item in progressCtrl.completedPercent | filter: $select.search">
+                                        <span ng-bind-html="item.text | highlight: $select.search"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                            <button class="btn btn-success" ng-disabled="progressForm.$invalid" ng-click="progressCtrl.saveProgress()"><i class="fa fa-floppy-o"></i> Save</button>
+                            
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            
+        </div>
+        
+    </div>
+    
+    
+</div>

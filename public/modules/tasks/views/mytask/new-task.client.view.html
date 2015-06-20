@@ -1,0 +1,84 @@
+<div class="row mytask-container">
+    <div class="mytask-list">
+        
+        <!--div class="row" ng-repeat="item in mytaskCtrl.myTasks" ng-if="item.status == 0">
+            <div class="col-md-4"  ng-class="{'col-md-offset-4': item.priority_alias == 'immediate', 'col-md-offset-8': item.priority_alias == 'normal' }">
+
+                <div class="thumbnail mytask-item">
+                    <div>
+                        <div class="pull-right mytask-action">
+                            <a href="#" ng-click="$event.preventDefault(); mytaskCtrl.start(item.id)"><i class="fa fa-play"></i> Start</a>
+                        </div>
+                        <div class="mytask-name" ng-text-truncate="item.task_name" ng-tt-words-threshold="7" ng-tt-no-toggling></div>
+                    </div>
+
+
+                    <div class="mytask-date text-right" ng-class="{normal: item.priority_alias == 'normal', immediate: item.priority_alias == 'immediate', urgent: item.priority_alias == 'urgent'}"><small>{{item.start_date | date:'dd/MM'}} - {{item.end_date | date:'dd/MM'}}</small> <small><small>[{{item.priority_name}}]</small></small></div>
+                    
+                    <div class="mytask-description" ng-text-truncate="item.description" ng-tt-words-threshold="15" ng-tt-more-label="More" ng-tt-less-label="Hide"></div>
+
+                </div>
+            </div>
+        </div-->
+        
+        <div class="col-md-4">
+            <div ng-repeat="item in mytaskCtrl.myTasks">
+                <div class="thumbnail mytask-item" ng-if="item.status == 0 && item.priority_alias == 'urgent'">
+                    <div>
+                        <div class="pull-right mytask-action">
+                            <a href="#" ng-click="$event.preventDefault(); mytaskCtrl.startMyTask(item.id)"><i class="fa fa-play"></i> Start</a>
+                        </div>
+                        <div class="mytask-name" ng-text-truncate="item.task_name" ng-tt-words-threshold="7" ng-tt-no-toggling></div>
+                    </div>
+
+
+                    <div class="mytask-date text-right" ng-class="{normal: item.priority_alias == 'normal', immediate: item.priority_alias == 'immediate', urgent: item.priority_alias == 'urgent'}"><small>{{item.start_date | date:'dd/MM'}} - {{item.end_date | date:'dd/MM'}}</small> <small><small>[{{item.priority_name}}]</small></small></div>
+
+                    <div class="mytask-description" ng-text-truncate="item.description" ng-tt-words-threshold="15" ng-tt-more-label="More" ng-tt-less-label="Hide"></div>
+
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div ng-repeat="item in mytaskCtrl.myTasks">
+            
+                <div class="thumbnail mytask-item" ng-if="item.status == 0 && item.priority_alias == 'immediate'">
+                    <div>
+                        <div class="pull-right mytask-action">
+                            <a href="#" ng-click="$event.preventDefault(); mytaskCtrl.startMyTask(item.id)"><i class="fa fa-play"></i> Start</a>
+                        </div>
+                        <div class="mytask-name" ng-text-truncate="item.task_name" ng-tt-words-threshold="7" ng-tt-no-toggling></div>
+                    </div>
+
+
+                    <div class="mytask-date text-right" ng-class="{normal: item.priority_alias == 'normal', immediate: item.priority_alias == 'immediate', urgent: item.priority_alias == 'urgent'}"><small>{{item.start_date | date:'dd/MM'}} - {{item.end_date | date:'dd/MM'}}</small> <small><small>[{{item.priority_name}}]</small></small></div>
+
+                    <div class="mytask-description" ng-text-truncate="item.description" ng-tt-words-threshold="15" ng-tt-more-label="More" ng-tt-less-label="Hide"></div>
+
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div ng-repeat="item in mytaskCtrl.myTasks">
+            
+                <div class="thumbnail mytask-item" ng-if="item.status == 0 && item.priority_alias == 'normal'">
+                    <div>
+                        <div class="pull-right mytask-action">
+                            <a href="#" ng-click="$event.preventDefault(); mytaskCtrl.startMyTask(item.id)"><i class="fa fa-play"></i> Start</a>
+                        </div>
+                        <div class="mytask-name" ng-text-truncate="item.task_name" ng-tt-words-threshold="7" ng-tt-no-toggling></div>
+                    </div>
+
+
+                    <div class="mytask-date text-right" ng-class="{normal: item.priority_alias == 'normal', immediate: item.priority_alias == 'immediate', urgent: item.priority_alias == 'urgent'}"><small>{{item.start_date | date:'dd/MM'}} - {{item.end_date | date:'dd/MM'}}</small> <small><small>[{{item.priority_name}}]</small></small></div>
+
+                    <div class="mytask-description" ng-text-truncate="item.description" ng-tt-words-threshold="15" ng-tt-more-label="More" ng-tt-less-label="Hide"></div>
+
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>

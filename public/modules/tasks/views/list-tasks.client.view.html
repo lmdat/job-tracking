@@ -1,0 +1,96 @@
+<section ng-controller="TaskController as taskCtrl" ng-init="taskCtrl.getTasksList()">
+    <div class="page-header">
+        <h3>
+            <span>List Tasks</span>
+            
+            <button class="btn btn-success pull-right" ng-click="taskCtrl.createTaskModal()">
+                <i class="fa fa-plus"></i> Create Task
+            </button>
+        </h3>
+    </div>
+    
+    <div class="container-fluid tasks-list">
+        
+        <div class="row col-sm-11 col-md-11" ng-repeat="(key, task) in taskCtrl.tasks" id="{{task.date | date:'yyyyMMdd'}}" on-finish-render>
+            <div class="date-name">{{task.date | date:'MMM dd, yyyy'}}</div>
+               
+            <div class="col-sm-3 col-md-3 task-item-container" ng-repeat="item in task.list_tasks">
+                <div class="thumbnail task-item" ng-class="{'normal': item.priority_alias=='normal', 'immediate': item.priority_alias=='immediate', 'urgent': item.priority_alias=='urgent'}">
+
+                    <div class="task-name" ng-if="item.status==1">
+                        <a ui-sref="task-detail({user_id: item.user_id, task_id: item.id})" title="View Task's Details">{{item.task_name}}</a>
+                    </div>
+                    <div class="task-name" ng-if="item.status!=1">
+                        {{item.task_name}}
+                    </div>
+                    <div class="task-date" ng-class="{'normal': item.priority_alias=='normal', 'immediate': item.priority_alias=='immediate', 'urgent': item.priority_alias=='urgent'}"><small><small>{{item.start_date | date:'dd/MM'}} - {{item.end_date | date:'dd/MM'}} <span>[{{item.priority_name}}]</span></small></small></div>
+
+                    <div class="progress task-progress" tooltip-html-unsafe="{{item.progress_note}}" tooltip-placement="top">
+                        <div class="progress-bar" ng-class="{'progress-bar-success': item.completed == 2, 'progress-bar-info progress-bar-striped active': item.completed == 0, 'progress-bar-success progress-bar-striped active': item.completed == 1}" role="progressbar" aria-valuenow="{{item.progress_rate}}" aria-valuemin="0" aria-valuemax="100" style="width: {{item.progress_rate}}%"><span>{{item.progress_rate}}% Completed</span></div>
+                    </div>
+
+
+                    <div class="task-description" ng-text-truncate="item.description" ng-tt-words-threshold="8" ng-tt-more-label="More" ng-tt-less-label="Hide"></div>
+
+                    <div class="text-right">
+                        <small><small><a ui-sref="user-tasks({user_id: item.user_id})">{{item.assigned_for.first_name + ' ' + item.assigned_for.surname}}</a> | {{item.assigned_for.title}}</small></small>
+                    </div>
+
+                    <div class="task-action" ng-if="item.status < 2">
+                        <a href="#" ng-click="$event.preventDefault(); taskCtrl.deleteTask(item)"><i class="fa fa-trash-o"></i> Delete</a> <a href="#" ng-click="$event.preventDefault(); taskCtrl.updateTaskModal('', item)"><i class="fa fa-pencil-square-o"></i> Edit</a>
+                    </div>                        
+
+                </div>
+            </div>   
+                
+            </div>
+            
+            
+            
+        </div>
+    </div>
+    
+    <div class="calendar-bar-container">
+        <div>
+            <select style="width:100%" ng-model="taskCtrl.current_year">
+                <option ng-repeat="y in years" value="{{y.value}}" ng-selected="y.selected">{{y.text}}</option>
+            </select>
+            <select style="width:100%" ng-model="taskCtrl.current_month">
+                <option ng-repeat="m in months" value="{{m.value}}" ng-selected="m.selected">{{m.text}}</option>
+            </select>
+            <a href="#" class="btn btn-info btn-xs btn-block" ng-click="$event.preventDefault(); taskCtrl.changeDate()"><i class="fa fa-eye"></i> View</a>
+        </div>
+        <div class="calendar-bar" ng-scrollbar scrollbar-x="false" scrollbar-y="true" scrollbar-config="{show: false}">
+            <ul class="nav">
+                <li ng-repeat="t in taskCtrl.tasks">
+                    <a href="#{{t.date | date:'yyyyMMdd'}}" du-smooth-scroll du-scrollspy offset="50" duration="1000" ng-click="taskCtrl.selectedDate(t.date)" ng-class="{active: taskCtrl.isActive(t.date)}">{{t.date | date: "MMM dd"}}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="sticky circle button-right-140" ng-click="taskCtrl.createTaskModal()" title="Create new task"><i class="fa fa-plus"></i></div>
+    <div id="top-button" class="sticky circle button-right-80" title="Go on top"><i class="fa fa-arrow-up"></i></div>
+    
+    
+    <script>
+        $(function(){
+            var offset = 60;
+            var duration = 500;
+            $(window).scroll(function() {
+                if ($(this).scrollTop() > offset){
+                    $('.sticky').fadeIn(duration);
+                }
+                else{
+                    $('.sticky').fadeOut(duration);
+                }
+            });
+
+            $('#top-button').click(function(event) {
+                event.preventDefault();
+                $('html, body').animate({scrollTop: 0}, duration);
+                return false;
+            });
+        });
+    </script>
+</section>

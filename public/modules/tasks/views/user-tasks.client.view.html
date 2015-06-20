@@ -1,0 +1,150 @@
+<div class="user-task-container" ng-controller="UserTasksController as userTasksCtrl" ng-init="userTasksCtrl.getUserTasksList();">
+    
+    <div class="spinner animated" ng-class="userTasksCtrl.showUserTasksList == false ? 'fadeIn' : 'hide'"><i class="fa fa-spinner fa-spin"></i> Please be patient...</div>
+    
+    <div class="row user-task-list animated" ng-class="userTasksCtrl.showUserTasksList == true ? 'zoomIn' : 'bounceOutRight'">
+        
+        <!--New Tasks List-->
+        <div class="col-md-3">
+            <div class="page-header">
+                <h4>Pending Tasks</h4>
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search" aria-describedby="search" ng-model='new_task_search'>
+                    <span class="input-group-addon" id="search"><i class="fa fa-search"></i></span>
+                </div>
+            </div>
+            <div class="thumbnail user-task-item" ng-repeat="item in userTasksCtrl.userTasksList | filter : new_task_search : false" ng-if="item.status==0">
+                <div class="task-name">{{item.task_name}}</div>
+                <div class="task-date text-right" ng-class="{normal: item.priority_alias == 'normal', immediate: item.priority_alias == 'immediate', urgent: item.priority_alias == 'urgent'}">{{item.start_date | date:'dd/MM'}} - {{item.end_date | date:'dd/MM'}} <small>[{{item.priority_name}}]</small></div>
+                <div class="task-description" ng-text-truncate="item.description" ng-tt-words-threshold="15" ng-tt-more-label="More" ng-tt-less-label="Hide"></div>
+
+            </div>
+        </div>
+        <!--./New Tasks List-->
+        
+        <!--Ongoing Tasks List-->
+        <div class="col-md-6" ng-init="userTasksCtrl.showTaskDetail(null);">
+            <div class="page-header">
+                <h4>Ongoing Tasks</h4>
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search" aria-describedby="search" ng-model='ongoing_task_search' ng-disabled="!userTasksCtrl.toggleOngoingTaskList">
+                    <span class="input-group-addon" id="search"><i class="fa fa-search"></i></span>
+                </div>
+            </div>
+            <div ng-hide="!userTasksCtrl.toggleOngoingTaskList">
+                <div class="thumbnail user-task-item" ng-repeat="item in userTasksCtrl.userTasksList | filter : ongoing_task_search : false" ng-if="item.status==1">
+                    <div class="task-name">
+                        <a href="#" ng-click="$event.preventDefault(); userTasksCtrl.toggleOngoingTaskList = false; userTasksCtrl.showTaskDetail(item)">{{item.task_name}}</a>
+                    </div>
+                    <div class="task-date text-right" ng-class="{normal: item.priority_alias == 'normal', immediate: item.priority_alias == 'immediate', urgent: item.priority_alias == 'urgent'}">{{item.start_date | date:'dd/MM'}} - {{item.end_date | date:'dd/MM'}} <small>[{{item.priority_name}}]</small></div>
+                    <div class="task-description" ng-text-truncate="item.description" ng-tt-words-threshold="15" ng-tt-more-label="More" ng-tt-less-label="Hide"></div>
+                </div>
+            </div>
+            
+            <div class="progress-list-container" ng-show="!userTasksCtrl.toggleOngoingTaskList">
+                <div>
+                    <div class="task-name">{{selectedTask.task_name}}</div>
+                    <div class="task-date text-right" ng-class="{normal: selectedTask.priority_alias == 'normal', immediate: selectedTask.priority_alias == 'immediate', urgent: selectedTask.priority_alias == 'urgent'}">{{selectedTask.start_date | date:'dd/MM'}} - {{selectedTask.end_date | date:'dd/MM'}} <small>[{{selectedTask.priority_name}}]</small></div>
+                </div>
+                
+                <div class="spinner animated" ng-class="userTasksCtrl.showProgressList == false ? 'fadeIn' : 'hide'"><i class="fa fa-spinner fa-spin"></i> Loading...</div>
+                
+                <!--Progress list-->
+                <div ng-show="userTasksCtrl.showProgressList">
+                    <!--Progress item-->
+                    <div class="progress-item" ng-repeat="pItem in userTasksCtrl.progressList">
+                        <div class="">{{pItem.note}}</div>
+                        <div class="progress-date">{{pItem.created}}</div>
+                        <div class="progress task-progress">
+                            <div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" aria-valuenow="{{pItem.rate}}" aria-valuemin="0" aria-valuemax="100" style="width: {{pItem.rate}}%">{{pItem.rate}}% Completed</div>
+                        </div>
+                        <div class="progress-action">
+                            <a href="#" ng-click="$event.preventDefault(); isToggleComments = !isToggleComments; userTasks.modelCommentText[pItem.id]=''; userTasksCtrl.getCommentsList(pItem, isToggleComments); userTasksCtrl.refreshComments(pItem)"><i class="fa fa-comments-o"></i> Comments</a>
+                        </div>
+                        
+                        <!--Comments list for each progress item-->
+                        <div class="container-fluid comments-list-container" ng-show="userTasksCtrl.toggleCommentsList[pItem.id]">
+                            <div class="spinner animated" ng-class="userTasksCtrl.showCommentsList[pItem.id] == false ? 'fadeIn' : 'hide'"><i class="fa fa-spinner fa-spin"></i> Loading...</div>
+                            
+                            <div class="comments-list animated" ng-class="userTasksCtrl.showCommentsList[pItem.id] == true ? 'fadeIn' : 'fadeOut'">
+                                <div class="comment-item clearfix" ng-repeat="comment in userTasksCtrl.commentsList[pItem.id]">
+                                    
+                                    <div class="comment-by" ng-class="comment.comment_by != userTasksCtrl.user_id ? 'pull-left left' : 'pull-right right'">
+                                        <span ng-show="comment.comment_by != userTasksCtrl.user_id">{{comment.first_name}}<br/>{{comment.surname}}</span>
+                                        <span ng-show="comment.comment_by == userTasksCtrl.user_id">Me</span>
+                                    </div>
+
+                                    <div class="comment-box" ng-class="comment.comment_by != userTasksCtrl.user_id ? 'left pull-left' : 'right pull-right'">
+                                        <div class="comment-box-content" ng-class="{'text-right': comment.comment_by == userTasksCtrl.user_id}">
+                                            {{comment.content}}
+                                        </div>
+                                        <div class="comment-date" ng-class="{'text-right': comment.comment_by != userTasksCtrl.user_id}">{{comment.created}} <span ng-if="comment.comment_by == userTasksCtrl.user_id">| <a href="#" ng-click="$event.preventDefault(); userTasksCtrl.deleteComment(comment, pItem)"><i class="fa fa-trash-o"></i> Delete</a></span></div>
+                                    </div>
+                                </div>
+                                
+                                
+                            </div>
+                            
+                            <!--Comment form-->
+                            <div class="animated" ng-class="{'bounceInRight': isToggleComments}">
+                                <hr/>
+                                <div class="alert alert-msg" ng-class="{'alert-warning': message_type=='warning', 'alert-danger': message_type=='error'}" ng-hide="save_comment_message[pItem.id]==''">
+                                    <strong><span ng-if="message_type=='warning'">Warning!</span><span ng-if="message_type=='error'">Oh snap!</span></strong> {{save_comment_message[pItem.id]}}
+                                </div>
+                                <form name="{{comment_form}}" ng-init="comment_form= 'commentForm_' + $index">
+                                    <div class="form-group">
+                                        <div class="clearfix">
+                                            <textarea class="form-control comment-content" id="comment_content" name="comment_content" ng-model="userTasksCtrl.modelCommentText[pItem.id]" placeholder="Leave your comment here!" required></textarea>
+                                            <button type="button" class="btn btn-xs btn-info pull-right" ng-click="userTasksCtrl.saveComment(pItem)" ng-disabled="{{comment_form}}.$invalid"><i class="fa fa-comment-o"></i> Post Comment!</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <!--./Comment form-->
+                        </div>
+                        <!--./Comments list for each progress item-->
+                        
+                        <hr ng-if="!$last"/>
+                    </div>
+                    <!--Progress item-->
+                </div>
+                <!--./Progress list-->
+                
+                <div class="alert alert-msg" ng-class="{'alert-warning': message_type=='warning', 'alert-danger': message_type=='error'}" ng-hide="progress_message==''">
+                    <strong><span ng-if="message_type=='warning'">Warning!</span><span ng-if="message_type=='error'">Oh snap!</span></strong> {{progress_message}}
+                </div>
+                
+                
+                <button class="btn btn-xs btn-warning" ng-click="userTasksCtrl.refreshUserTaskList()"><i class="fa fa-arrow-left"></i> Back</button>
+            </div>
+        </div>
+        <!--./Ongoing Tasks List-->
+        
+        <!--Completed Tasks List-->
+        <div class="col-md-3">
+            <div class="page-header">
+                <h4>Completed Tasks</h4>
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search" aria-describedby="search" ng-model='completed_task_search'>
+                    <span class="input-group-addon" id="search"><i class="fa fa-search"></i></span>
+                </div>
+            </div>
+            <div class="thumbnail user-task-item" ng-repeat="item in userTasksCtrl.userTasksList | filter : completed_task_search : false" ng-if="item.status==2">
+                <div class="task-name">{{item.task_name}}</div>
+                <div class="task-date text-right" ng-class="{normal: item.priority_alias == 'normal', immediate: item.priority_alias == 'immediate', urgent: item.priority_alias == 'urgent'}">{{item.start_date | date:'dd/MM'}} - {{item.end_date | date:'dd/MM'}} <small>[{{item.priority_name}}]</small></div>
+                <div class="task-description" ng-text-truncate="item.description" ng-tt-words-threshold="15" ng-tt-more-label="More" ng-tt-less-label="Hide"></div>
+            </div>
+        </div>
+        <!--./Completed Tasks List-->
+        
+        <div class="col-md-8 col-md-offset-2">
+            <div class="alert alert-msg" ng-class="{'alert-warning': message_type=='warning', 'alert-danger': message_type=='error'}" ng-hide="task_message==''">
+                <strong><span ng-if="message_type=='warning'">Warning!</span><span ng-if="message_type=='error'">Oh snap!</span></strong> {{task_message}}
+            </div>
+        </div>
+        
+    </div>
+    
+    
+    
+</div>

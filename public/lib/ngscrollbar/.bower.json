@@ -1,0 +1,25 @@
+{
+  "name": "ngScrollbar",
+  "description": "imitate browser scrollbar",
+  "version": "0.0.1",
+  "ignore": [
+    "**/.*",
+    "components",
+    "example"
+  ],
+  "devDependencies": {
+    "angular": "1.2.16",
+    "bootstrap": "3.3.1"
+  },
+  "homepage": "https://github.com/angrytoro/ngscrollbar",
+  "_release": "0.0.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.0.1",
+    "commit": "8fd53527901b6367c631da4e42a2f7e290443062"
+  },
+  "_source": "git://github.com/angrytoro/ngscrollbar.git",
+  "_target": "~0.0.1",
+  "_originalSource": "ngscrollbar",
+  "_direct": true
+}

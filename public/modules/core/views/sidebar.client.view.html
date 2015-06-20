@@ -1,0 +1,17 @@
+<div class="col-sm-2 sidebar" role="navigation" ng-controller="SidebarController as sidebarCtrl" ng-init="sidebarCtrl.initMenu()">
+    <div class="sidebar-nav navbar-collapse">
+        <ul class="nav" id="side-menu" ng-hide="!sidebarCtrl.authentication.authorized">
+            <li ng-repeat="item in sidebarCtrl.sidebarMenu">
+                <a ui-sref="{{item.url_name}}" ui-sref-active="{{item.active_class}}"><span ng-bind-html="item.icon"></span> <span ng-bind="item.title"></span></a>
+            </li>
+        </ul>
+        
+        
+        <ul class="nav" id="side-menu" ng-hide="sidebarCtrl.authentication.authorized">
+            <li class="disabled" ng-repeat="item in sidebarCtrl.sidebarMenu">
+                <a><span ng-bind-html="item.icon"></span> <span ng-bind="item.title"></span></a>
+            </li>
+            
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,67 @@
+<section ng-controller="CreateUserController as createUserCtrl">
+    <div class="modal-header">
+        <h3 class="modal-title">Create User</h3>
+    </div>
+    
+    <div class="modal-body">
+        
+        <div class="spinner animated" ng-class="createUserCtrl.showCreateForm == false ? 'fadeIn' : 'hide'"><i class="fa fa-spinner fa-spin"></i> Loading...</div>
+        
+        <div class="animated" ng-class="createUserCtrl.showCreateForm == true ? 'fadeIn' : 'hide'">
+        
+            <form name="userForm" class="form-horizontal" autocomplete="false">
+                <div class="form-group" ng-class="{'has-error': userForm.first_name.$invalid && !userForm.first_name.$pristine}">
+                    <label for="first_name" class="col-sm-3 control-label">First Name</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="first_name" name="first_name" ng-model="createUserCtrl.first_name" placeholder="First Name" required>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-class="{'has-error': userForm.surname.$invalid && !userForm.surname.$pristine}">
+                    <label for="surname" class="col-sm-3 control-label">Surname</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="surname" name="surname" ng-model="createUserCtrl.surname" placeholder="Surname" required>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-class="{'has-error': userForm.title.$invalid && !userForm.title.$pristine}">
+                    <label for="title" class="col-sm-3 control-label">Title</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="title" name="title" ng-model="createUserCtrl.title" placeholder="Title" required>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-class="{'has-error': userForm.email.$invalid && !userForm.email.$pristine}">
+                    <label for="email" class="col-sm-3 control-label">Email</label>
+                    <div class="col-sm-8">
+                        <input type="email" class="form-control" id="email" name="email" ng-model="createUserCtrl.email" placeholder="Email" required>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-class="{'has-error': userForm.password.$invalid && !userForm.password.$pristine}">
+                    <label for="password" class="col-sm-3 control-label">Password</label>
+                    <div class="col-sm-8">
+                        <input type="password" class="form-control" id="password" name="password" ng-model="createUserCtrl.password" placeholder="Password" required>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-class="{'has-error': userForm.role_id.$invalid}">
+                    <label for="password" class="col-sm-3 control-label">Role</label>
+                    <div class="col-sm-8">
+                        <ui-select id="role_id" name="role_id" ng-model="createUserCtrl.role_id.selected" theme="bootstrap" ng-disabled="disabled" title="Choose a role" style="min-width: 100%;" required>
+                            <ui-select-match placeholder="Select or search a role in the list...">{{$select.selected.role_name}}</ui-select-match>
+                            <ui-select-choices repeat="role in createUserCtrl.roles | filter: $select.search">
+                                <span ng-bind-html="role.role_name | highlight: $select.search"></span>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <div class="modal-footer">
+        <button class="btn btn-success" ng-click="createUserCtrl.createUser(userForm.$valid); ok()" ng-disabled="userForm.$invalid">Save & Close</button>
+        <button class="btn btn-danger" ng-click="cancel()">Cancel</button>
+    </div>
+</section>

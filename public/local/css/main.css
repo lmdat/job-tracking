@@ -1,0 +1,908 @@
+html,
+body{
+	
+	line-height: 1.7em;
+    background-color: #f8f8f8;
+    color: #7f8c8d;
+    font-size: 14px;
+    font-family: 'Roboto', 'Roboto Condensed', 'Roboto Slab', 'Droid Sans', 'Droid Serif', sans-serif;
+    
+}
+
+a{
+    color: steelblue;
+    text-decoration: none;
+}
+
+a:hover{
+    color: lightseagreen;
+    text-decoration: none;
+}
+
+.nav a, .pagination a, .carousel a {
+    cursor: pointer;
+}
+
+#wrapper{
+    border: 0px solid red;
+    margin-top: 55px;
+    padding: 0px;
+    
+}
+
+.sidebar{
+    position: fixed;
+    padding: 0px;
+    font-family: 'Droid Sans';
+    
+}
+
+.sidebar .sidebar-nav.navbar-collapse {
+    padding-right: 0;
+    padding-left: 0;
+}
+
+.sidebar ul li {
+    border-bottom: 1px solid #e7e7e7;
+}
+
+.sidebar ul li a{
+    padding-left: 10px;
+    color: steelblue;
+}
+
+.sidebar ul li a:hover{
+    padding-left: 15px;
+    color: lightseagreen;
+}
+
+.sidebar ul li a.active {
+    padding-left: 15px;
+    color: lightseagreen;
+    background-color: #eee;
+}
+
+.header-bar{
+    font-family: 'Droid Sans';
+}
+
+.header-bar ul li a{
+    color: steelblue !important;
+}
+
+.header-bar ul li a:hover{
+    color: lightseagreen !important;
+}
+
+.main-content{
+    border-left: 1px solid #e7e7e7;
+    background-color: #fff;
+    min-height: 600px;
+    
+}
+
+.main-content .page-header{
+    margin-top: 0px;
+}
+
+.main-content .user-task-container{
+    margin-top: 10px;
+}
+
+.main-content .user-task-container .user-task-list{
+    border: 0px solid red;
+}
+
+.main-content .user-task-container .user-task-list .user-task-item{
+    border-color: lightseagreen;
+}
+
+.main-content .user-task-container .user-task-list .user-task-item .task-name{
+    font-weight: bold;
+}
+
+.main-content .user-task-container .user-task-list .user-task-item .task-date{
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.main-content .user-task-container .user-task-list .user-task-item .task-date.normal{
+    color: dodgerblue;
+}
+
+.main-content .user-task-container .user-task-list .user-task-item .task-date.immediate{
+    color: darkorange;
+}
+
+.main-content .user-task-container .user-task-list .user-task-item .task-date.urgent{
+    color: red;
+}
+
+.main-content .user-task-container .user-task-list .user-task-item .task-description{
+    font-size: 11px;
+    font-style: italic;
+    color: lightslategrey;
+}
+
+
+.main-content .progress-list-container{
+    
+}
+
+.main-content .progress-list-container .task-name{
+    font-weight: bold;
+}
+
+.main-content .progress-list-container .task-date{
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.main-content .progress-list-container .task-date.normal{
+    color: dodgerblue;
+}
+
+.main-content .progress-list-container .task-date.immediate{
+    color: darkorange;
+}
+
+.main-content .progress-list-container .task-date.urgent{
+    color: red;
+}
+
+.main-content .progress-list-container .progress-item{
+    font-size: 13px;
+    line-height: normal;
+}
+
+
+.main-content .progress-list-container .progress-item .progress-date{
+    font-size: 10px;
+}
+.main-content .progress-list-container .progress-action{
+    font-family: 'Droid Sans', 'Roboto Condensed', sans-serif;
+    font-size: 12px;
+}
+
+.main-content .progress-list-container .progress-action a{
+    color: steelblue;
+    text-decoration: none;
+}
+
+.main-content .progress-list-container .progress-action a:hover{
+    color: lightseagreen;
+}
+.main-content .progress-list-container .comments-list-container{
+    border: 0px solid red;
+    margin-top: 5px;
+    padding-right: 0px;
+}
+
+.main-content .progress-list-container .comments-list-container .comments-list{
+    border: 0px solid green;
+    background-color: aliceblue;
+    padding: 10px 5px 2px 5px; 
+}
+
+.main-content .progress-list-container .comments-list-container .comment-item{
+    margin-bottom: 10px;
+}
+
+.main-content .progress-list-container .comments-list-container .comment-content{
+    height: 60px;
+    font-family: 'Roboto Condensed';
+    margin-bottom: 2px;
+}
+
+/*-------------Task List-------------*/
+
+.main-content .tasks-list{
+    line-height: normal;
+}
+
+.main-content .tasks-list .date-name{
+    color: lightseagreen;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    font-size: 14px;
+    font-family: 'Droid Sans', 'Droid Serif', sans-serif;
+    
+}
+
+.main-content .tasks-list .task-item-container{
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+.main-content .tasks-list .task-item-container .task-item{
+    border-width: 2px;
+}
+
+.main-content .tasks-list .task-item-container .task-item.normal{
+    border-color: dodgerblue;
+}
+
+.main-content .tasks-list .task-item-container .task-item.immediate{
+    border-color: darkorange;
+}
+
+.main-content .tasks-list .task-item-container .task-item.urgent{
+    border-color: red;
+}
+
+.main-content .tasks-list .task-item-container .task-item .task-name{
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.main-content .tasks-list .task-item-container .task-item .task-name a{
+    color: steelblue;
+    
+}
+
+.main-content .tasks-list .task-item-container .task-item .task-name a:hover{
+    color: lightseagreen;
+    text-decoration: none;
+    
+}
+
+
+.main-content .tasks-list .task-item-container .task-item .task-description{
+    font-size: 10px;
+    font-style: italic;
+    color: lightslategrey;
+}
+
+.main-content .tasks-list .task-item-container .task-item .task-action{
+    line-height: normal;
+    font-size: 12px;
+    font-family: 'Droid Sans', 'Roboto Condensed', sans-serif;
+}
+
+.main-content .tasks-list .task-item-container .task-item .task-action a{
+    color: lightseagreen;
+    text-decoration: none;
+    margin-right: 5px;
+}
+
+.main-content .tasks-list .task-item-container .task-item .task-action a:hover{
+    color: steelblue;
+}
+
+.main-content .tasks-list .task-item-container .task-date.normal{
+    color: dodgerblue;
+}
+
+.main-content .tasks-list .task-item-container .task-date.immediate{
+    color: darkorange;
+}
+
+.main-content .tasks-list .task-item-container .task-date.urgent{
+    color: red;
+}
+
+/*
+.main-content .task-name{
+    color: #00A09A;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+*/
+
+.main-content .calendar-bar-container{
+    position:fixed;
+    right:2px;
+    top: 125px;
+    width: 70px;
+}
+
+.main-content .calendar-bar-container .calendar-bar{
+    height: 435px;
+    overflow: hidden;
+    background-color: #f8f8f8
+}
+
+.main-content .calendar-bar-container .calendar-bar li{
+    font-size: 12px;
+}
+
+.main-content .calendar-bar-container .calendar-bar li a:hover{
+    color: #fff;
+    background-color: #00A09A;
+}
+
+.main-content .calendar-bar-container .calendar-bar li a.active{
+    color: #fff;
+    background-color: #00A09A;
+}
+
+.main-content .signin-form{
+    margin-top: 100px;
+}
+
+.signin-form .forget-password a{
+    line-height: normal;
+    font-size: 12px;
+    font-family: 'Droid Sans', 'Roboto Condensed', sans-serif;
+    text-decoration: none;
+    color: steelblue;
+}
+
+.signin-form .forget-password a:hover{
+    color: lightseagreen;
+}
+
+
+.main-content .acl-error{
+    margin-top: 150px;
+}
+
+.main-content .mytask-container{
+    line-height: normal;
+    margin-top: 10px;
+    border: 0px solid red;
+}
+
+.main-content .mytask-container .mytask-list{
+    border: 0px solid blue;
+    padding-right: 0px;
+}
+
+
+
+.main-content .mytask-container .mytask-list .arrow{
+    top: 20px;
+    
+    border-left: 0;
+    border-top: 20px solid transparent;
+    border-bottom: 20px solid transparent;
+    border-right: 20px solid aliceblue;
+    
+    margin: 0px;
+    padding: 0px;
+    width: 0px;
+    height: 0px;
+
+}
+
+/*
+.arrow{
+    top: 20px;
+    width: 28px;
+    height: 40px;
+    margin: 0px;
+    padding: 0px;
+    overflow: hidden;
+}
+
+
+.arrow:after{
+    position: absolute;
+    content: '';
+    display: block;
+    width: 28px;
+    height: 28px;
+    transform: rotate(45deg);
+    position: absolute;
+    top: 6px;
+    right: -14px;
+    background: aliceblue;
+    background-clip: padding-box;
+    
+}
+*/
+
+
+.main-content .mytask-container .mytask-list .mytask-item{
+    border: 2px solid #00A09A;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    min-height: 80px;
+    
+    
+
+}
+.main-content .mytask-container .mytask-list .mytask-item .action-container{
+    position: relative;
+}
+
+.main-content .mytask-container .mytask-list .mytask-item .mytask-action{
+    position: absolute;
+    right: 0px;
+    display: none;
+    font-size: 12px;
+    font-family: 'Droid Sans', 'Roboto Condensed', sans-serif;
+}
+
+.main-content .mytask-container .mytask-list .mytask-item .mytask-action a{
+    color: lightseagreen;
+    font-weight: normal;
+    text-decoration: none
+}
+
+.main-content .mytask-container .mytask-list .mytask-item .mytask-action a:hover{
+    color: steelblue;
+}
+
+
+.main-content .mytask-container .mytask-list .mytask-item:hover .mytask-action{
+    display: block;
+    background-color: aliceblue;
+}
+
+
+.main-content .mytask-container .mytask-list .normal{
+    color: dodgerblue;
+}
+
+.main-content .mytask-container .mytask-list .immediate{
+    color: darkorange;
+}
+
+.main-content .mytask-container .mytask-list .urgent{
+    color: red;
+}
+
+
+.main-content .mytask-container .mytask-list .mytask-name{
+    
+   /*border: 0px solid green;*/
+    color: lightseagreen;
+    font-weight: bold;
+    margin: 0px;
+    
+}
+
+
+.main-content .mytask-container .mytask-list .mytask-date{
+    /*border: 0px solid orange;*/
+    padding: 0px;
+    
+}
+
+.main-content .mytask-container .mytask-list .mytask-description{
+    font-size: 11px;
+    font-style: italic;
+    color: lightslategrey;
+}
+
+
+.main-content .mytask-container .progress-list{
+    /*border-left: 2px solid aliceblue;*/
+    min-height: 200px;
+    background-color: aliceblue;
+    border-radius: 2px;
+    
+}
+
+.main-content .mytask-container .progress-list .progress-container-item{
+    margin-top: 10px;
+    border: 0px solid green;
+    
+}
+
+.main-content .mytask-container .progress-list .progress-item{
+    position: relative;
+    border: 0px solid red;
+    min-height: 80px;
+}
+
+.main-content .mytask-container .progress-list .progress-item .progress-action{
+    /*display: none;*/
+    position: absolute;
+    /*background-color: floralwhite;*/
+    bottom:0px;
+    left:0px;
+    font-size: 12px;
+    font-family: 'Droid Sans', 'Roboto Condensed', sans-serif;
+    
+}
+
+.main-content .mytask-container .progress-list .progress-item .progress-action a{
+    color: lightseagreen;
+    font-weight: normal;
+    text-decoration: none
+}
+
+.main-content .mytask-container .progress-list .progress-item .progress-action a:hover{
+    color: steelblue;
+
+}
+
+
+.main-content .mytask-container .progress-list .progress-item:hover{
+    background-color: white;
+}
+
+.main-content .mytask-container .progress-list .progress-item:hover .progress-action{
+    /*display: block;*/
+}
+
+.main-content .mytask-container .progress-list .comments .comment-text{
+    height: 60px;
+    font-family: 'Roboto Condensed';
+    margin-bottom: 2px;
+}
+
+.main-content .mytask-container .progress-list .comments .comments-list .comment-container{
+    margin-top: 10px;
+}
+
+.main-content .comment-by{
+    font-family: 'Roboto Condensed', sans-serif;
+    border: 0px solid red;
+    width: auto;
+    padding-top: 5px;
+    
+}
+
+.main-content .comment-by.left{
+    padding-right: 10px;
+    color: lightseagreen;
+}
+
+.main-content .comment-by.right{
+    padding-left: 10px;
+    color: firebrick;
+}
+
+.main-content .comment-box{
+    min-height: 40px;
+    width: 80%;
+    background-color: white;
+    border-radius: 2px;
+    padding: 0px;
+    position: relative;
+    
+    font-size: 13px;
+    font-family: 'Roboto Condensed', sans-serif;
+ 
+}
+
+.main-content .comment-box .comment-box-content{
+    margin-left: 10px;
+    margin-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    color: darkslategrey;
+    
+}
+
+.main-content .comment-box .comment-date{
+    padding-left: 5px;
+    padding-right: 5px;
+    font-size: 11px;
+    font-family: 'Roboto Condensed', sans-serif;
+    color: #999;
+}
+
+.main-content .comment-box .comment-date a{
+    font-size: 12px;
+    font-family: 'Droid Sans', 'Roboto Condensed', sans-serif;
+    color: lightseagreen;
+    text-decoration: none;
+}
+
+.main-content .comment-box .comment-date a:hover{
+    color: seagreen;
+}
+
+.main-content .comment-box:before, .comment-box:after{
+    content: '';
+    border: solid transparent;
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    
+}
+
+
+/*arrow left*/
+.main-content .comment-box.left:before, .comment-box.left:after{
+    right: 100%;
+}
+
+.main-content .comment-box.left:before {
+	/*border-color: rgba(136, 183, 213, 0);*/
+	border-right-color: white;
+	border-width: 8px;
+	margin-top: 8px;
+}
+/*
+.main-content .mytask-container .progress-list .comments .comments-list .comment-container .comment-box.left:after {
+	border-color: rgba(194, 225, 245, 0);
+	border-right-color: #c2e1f5;
+	border-width: 11px;
+	margin-top: 0px;
+}
+*/
+
+/*arrow right*/
+.main-content .comment-box.right:before, .comment-box.left:after{
+    left: 100%;
+}
+
+.main-content .comment-box.right:before {
+	/*border-color: rgba(136, 183, 213, 0);*/
+	border-left-color: white;
+	border-width: 8px;
+	margin-top: 8px;
+}
+/*
+.main-content .mytask-container .progress-list .comments .comments-list .comment-container .comment-box.right:after {
+	border-color: rgba(194, 225, 245, 0);
+	border-left-color: #c2e1f5;
+	border-width: 11px;
+	margin-top: 0px;
+}
+*/
+
+.main-content .task-progress{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+
+.main-content .progress-note, .progress-note-edit{
+    height: 50px;
+}
+
+.main-content .progress-note-edit{
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 14px;
+}
+
+.tooltip.progressNoteTooltip .tooltip-inner{
+    background-color: aliceblue;
+    color: black;
+}
+
+.spinner{
+    font-size: 14px;
+    font-family: 'Roboto Condensed', sans-serif;
+    color: lightseagreen;
+    text-align: center;
+    margin-top: 2px;
+}
+
+.priority{
+    
+    font-family: 'Droid Sans';
+}
+
+.priority.normal-color{
+    color: dodgerblue;
+}
+
+.priority.immediate-color{
+    color: darkorange;
+}
+
+.priority.urgent-color{
+    color: red;
+}
+
+
+.alert-msg{
+    font-family: 'Roboto Condensed', 'Droid Sans', sans-serif;
+    font-size: 14px;
+    line-height: normal;
+    min-height: 40px; 
+    padding: 8px;
+}
+
+.sticky{
+    position: fixed;
+    bottom: 2px;
+    
+    text-decoration: none;
+    color: white;
+    background-color: lightseagreen;
+    font-size: 24px;
+    display: none;
+    cursor: pointer;
+}
+
+.sticky.circle{
+    width:50px;
+    height:50px;
+    border-radius:50px;
+    text-align:center;
+    padding-top: 13px;
+}
+
+.sticky.plus-button{
+    right: 140px;
+}
+
+.sticky.top-button{
+    right: 80px;
+}
+
+.sticky.button-right-140{
+    right: 140px;
+}
+
+.sticky.button-right-80{
+    right: 80px;
+}
+
+.sticky.button-right-20{
+    right: 20px;
+}
+
+
+.sticky:hover{
+    background-color: steelblue;
+}
+
+.ngTruncateToggleText{
+    cursor: pointer;
+}
+
+.profile{
+    margin-top: 10px;
+}
+
+.error-form-message{
+    color: firebrick;
+    font-family: 'Roboto Condensed', 'Droid Sans', sans-serif;
+    font-size: 14px;
+    
+}
+
+.main-content .dashboard{
+    margin-top: 10px;
+}
+
+.main-content .dashboard .item-box{
+    position: relative;
+    height: 120px;
+    border-radius: 5px;
+    color: snow;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.main-content .dashboard .item-box .box-content{
+    margin-left: 5px;
+    margin-right: 5px;
+    width: auto;
+    line-height: normal;
+    
+}
+
+.main-content .dashboard .item-box .box-content .box-icon{
+    font-size: 50px;
+}
+
+.main-content .dashboard .item-box .box-content .task-counter{
+    font-size: 30px;
+    font-family: 'Roboto Condensed';
+}
+
+.main-content .dashboard .item-box .box-content .task-name{
+    font-family: 'Droid Sans', sans-serif;
+}
+
+
+.main-content .dashboard .pending-task{
+    background-color: indianred;
+    border: 1px solid indianred;
+    
+}
+
+.main-content .dashboard .ongoing-task{
+    background-color: lightseagreen;
+    border: 1px solid lightseagreen;
+    
+}
+
+.main-content .dashboard .completed-task{
+    background-color: steelblue;
+    border: 1px solid steelblue;
+    
+}
+
+
+.main-content .dashboard .item-box .footer-box{
+    position: absolute;
+    width: 100%;
+    bottom: 0px;
+    height: 40px;
+    background-color: snow;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.main-content .dashboard .status-label{
+    margin-left: 5px;
+}
+
+.main-content .dashboard .status-label.label-pending{
+    background-color: indianred;
+    color: snow
+}
+
+.main-content .dashboard .status-label.label-ongoing{
+    background-color: lightseagreen;
+    color: snow
+}
+
+.main-content .dashboard .status-label.label-completed{
+    background-color: steelblue;
+    color: snow
+}
+
+
+/*
+.arrow-up {
+	width: 0; 
+	height: 0; 
+	border-left: 5px solid transparent;
+	border-right: 5px solid transparent;
+	
+	border-bottom: 5px solid black;
+}
+
+.arrow-down {
+	width: 0; 
+	height: 0; 
+	border-left: 20px solid transparent;
+	border-right: 20px solid transparent;
+	
+	border-top: 20px solid #f00;
+}
+
+.arrow-right {
+	width: 0; 
+	height: 0; 
+	border-top: 60px solid transparent;
+	border-bottom: 60px solid transparent;
+	
+	border-left: 60px solid green;
+}
+
+.arrow-left {
+	width: 0; 
+	height: 0; 
+	border-top: 20px solid transparent;
+	border-bottom: 20px solid transparent; 
+	
+	border-right: 20px solid blue; 
+}
+*/
+
+
+
+
+/*
+.wrap {
+    min-height: 100%;
+    height: auto;
+    margin: 0 auto -60px;
+    padding: 0 0 60px;
+
+}
+
+.wrap > .container {
+    padding: 40px 15px 20px;
+    border: 0px solid green;
+
+}
+*/
+
+.footer {
+    height: 40px;
+    background-color: #f8f8f8;
+    border-top: 1px solid #e7e7e7;
+    padding-top: 10px;
+}
+
+/*---------------Animation----------------------*/
+
+
+
