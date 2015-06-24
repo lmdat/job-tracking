@@ -5,6 +5,7 @@ class Task extends Eloquent{
     
     protected $table = 'task';
     public $timestamps = false;
+    public $incrementing = false;
     
     protected $fillable = array(
         'id',
