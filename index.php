@@ -30,4 +30,33 @@ $app->get('/', function () use($app, $twig, $assets) {
     
 });
 
+/*
+$app->get('/install', function() use($app){
+    //Create the main user once by manually!       
+    $data['id'] = App\Libs\Utils\Vii::guid();
+    $data['first_name'] = '';
+    $data['surname'] = '';
+    $data['title'] = '';
+    $data['email'] = '';
+    $data['password'] = \Bcrypt::hashPassword('1234567890');
+    $data['salt'] = md5(uniqid() . time());
+    $data['main_user'] = 1;
+    $data['expired_key'] = '';
+    $data['ref_id'] = 0;
+    $data['active'] = 1;
+    $data['role_id'] = 900;
+    
+    
+    $user = new App\Models\User($data);
+    
+    if($user->save()){
+        echo 'User has created with id: ' . $user->id;
+    }
+    else{
+        echo 'Error';
+    }
+    
+});
+*/
+
 $app->run();

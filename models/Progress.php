@@ -5,6 +5,7 @@ class Progress extends Eloquent{
     
     protected $table = 'progress';
     public $timestamps = false;
+    public $incrementing = false;
     
     protected $fillable = array(
         'id',

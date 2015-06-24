@@ -101,6 +101,7 @@ class Environment implements \ArrayAccess, \IteratorAggregate
             'REMOTE_ADDR' => '127.0.0.1',
             'slim.url_scheme' => 'http',
             'slim.input' => '',
+			//'slim.input' => file_get_contents('php://input'),
             'slim.errors' => @fopen('php://stderr', 'w')
         );
         self::$environment = new self(array_merge($defaults, $userSettings));

@@ -6,6 +6,7 @@ class User extends Eloquent{
     
     protected $table = 'user';
     public $timestamps = false;
+    public $incrementing = false;
     
     protected $fillable = array(
         'id',
@@ -22,7 +23,7 @@ class User extends Eloquent{
         
     );
     
-    
+    //protected $guarded = ['id'];
     
     
     public function tasks(){

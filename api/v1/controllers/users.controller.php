@@ -155,15 +155,15 @@ $app->post('/users(/)', function() use($app){
 $app->post('/users/authenticate(/)', function() use($app){
     
     $data = json_decode($app->request->getBody(), true);
-    
-    $app->log->debug($data);
+    //$data = file_get_contents("php://input");
+    //$app->log->debug($data);
     
     $_identity = $data['username'];
     $_credential = $data['password'];
     
     $result = $app->auth->authenticate($_identity, $_credential);
     
-    $rs = array();
+    $rs = [];
     
     if(is_integer($result)){
         //$rs['token'] = '';
@@ -181,6 +181,8 @@ $app->post('/users/authenticate(/)', function() use($app){
         $rs['authorized'] = true;
         
     }
+    
+    $app->log->debug($rs);
     
     $app->response()->header("Content-Type", "application/json");
     echo json_encode($rs);
