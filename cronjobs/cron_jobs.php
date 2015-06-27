@@ -11,11 +11,12 @@ $loader->addPath(__DIR__ . '/views/email_template', 'email_template');
 
 $twig = new Twig_Environment($loader, array());
 
-$jobs = [
-    'remind_user_jobs'
+$cron_list = [
+    'remind_job'=>'remind_user_jobs'
 ];
 
+$arg = $argv[1];
 
-foreach($jobs as $job){
-    require_once __DIR__ . '/' . $job . '.php';
+if(isset($cron_list[$arg])){
+    require_once __DIR__ . '/' . $cron_list[$arg] . '.php';
 }
