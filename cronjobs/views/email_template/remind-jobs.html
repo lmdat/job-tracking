@@ -1,0 +1,16 @@
+<p><strong>Remind Jobs</strong></p>
+<p>
+    {% for task in tasks %}
+        {{loop.index}} | 
+        <span>{{task.task_name}}</span> | 
+        <span>{{task.start_date | date('d/m')}} - {{task.end_date | date('d/m')}}</span> | 
+        <span>{{task.priority_name}}</span> | 
+        <span>
+            {% if task.status == 0 %}
+                Pending
+            {% else %}
+                Ongoing
+            {% endif %}
+        </span><br/>
+    {% endfor %}
+</p>
