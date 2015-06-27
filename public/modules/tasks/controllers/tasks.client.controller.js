@@ -288,7 +288,7 @@ taskModuleCtrl.controller('UpdateTaskController', ['$scope', '$rootScope', 'User
         this.updateTask = function(){
             
             this.task.user_id = this.user_id.selected.id;
-            
+                        
             this.task.$update(
                 {
                     uid: $localStorage.auth.user.id
@@ -301,7 +301,7 @@ taskModuleCtrl.controller('UpdateTaskController', ['$scope', '$rootScope', 'User
                     
                 }
             );  
-            
+                        
         };
         
     }

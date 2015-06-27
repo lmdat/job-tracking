@@ -363,7 +363,8 @@ $app->put('/tasks/:uid(/)', function($uid) use($app){
     $task->description = $data['description'];
     $task->modified = date('Y-m-d H:i:s');
     $task->modified_by = $uid;
-        
+    $task->priority_id = $data['priority_id'];
+    
     $rs = '';
     if(!$task->save()){
         $app->response->setStatus(400);
