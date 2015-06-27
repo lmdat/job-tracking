@@ -21,8 +21,8 @@ userModuleCtrl.controller('UserController', ['$scope', '$modal', '$log', 'User',
 ]);
 */
 
-userModuleCtrl.controller('UserController', ['$scope', '$modal', '$log', 'User', '$localStorage',
-    function($scope, $modal, $log, User, $localStorage){
+userModuleCtrl.controller('UserController', ['$scope', '$modal', '$log', 'User', 'Notify', '$localStorage',
+    function($scope, $modal, $log, User, Notify, $localStorage){
         var me = this;
         
         this.showUserList = false;
@@ -104,6 +104,31 @@ userModuleCtrl.controller('UserController', ['$scope', '$modal', '$log', 'User',
             });
         };
         
+        this.deleteUser = function(item){
+            if(window.confirm('All data of this user will be removed. Do you really want to delete?')){
+                User.delete(
+                    {
+                        uid: item.id
+                    },
+                    function(res){
+                        Notify.sendMessage('$refreshUserList', {id: res.id});
+                        //console.log(res);
+                    }
+                );
+            }
+        };
+        
+        this.activeUser = function(item){
+            User.activeUser(
+                {
+                    uid: item.id
+                },
+                function(res){
+                    Notify.sendMessage('$refreshUserList', {id: res.id});
+                    //console.log(res);
+                }
+            );
+        };
     }
 ]);
 

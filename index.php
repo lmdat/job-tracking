@@ -30,14 +30,15 @@ $app->get('/', function () use($app, $twig, $assets) {
     
 });
 
+
 /*
 $app->get('/install', function() use($app){
     //Create the main user once by manually!       
     $data['id'] = App\Libs\Utils\Vii::guid();
-    $data['first_name'] = '';
-    $data['surname'] = '';
-    $data['title'] = '';
-    $data['email'] = '';
+    $data['first_name'] = 'Phương';
+    $data['surname'] = 'Phạm';
+    $data['title'] = 'Manager';
+    $data['email'] = 'viphuong@gtvsolutions.vn';
     $data['password'] = \Bcrypt::hashPassword('1234567890');
     $data['salt'] = md5(uniqid() . time());
     $data['main_user'] = 1;

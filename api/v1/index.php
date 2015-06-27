@@ -6,7 +6,7 @@ require_once '../../bootstrap.php';
 $app = new \Slim\Slim(array(
     'debug' => true,
     'log.enabled' => true,
-    'log.writer' => new \Slim\Extras\Log\DateTimeFileWriter(['path'=>'../../logs'])
+    'log.writer' => new \Slim\Extras\Log\DateTimeFileWriter(['path'=> __DIR__ . '/logs'])
 ));
 //$app->log->setEnabled(true);
 //$app->log->setLevel(\Slim\Log::DEBUG);

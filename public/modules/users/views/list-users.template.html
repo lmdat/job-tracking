@@ -17,8 +17,10 @@
                 <td>{{user.title}}</td>
                 <td>{{user.email}}</td>
                 <td>{{user.role_name}}</td>
-                <td>
+                <td width='20%' class="text-right">
                     <button type="button" class="btn btn-warning btn-xs" ng-click="userCtrl.updateUserModal('', user)"><i class="fa fa-pencil"></i> Edit</button>
+                    <button type="button" class="btn btn-danger btn-xs" ng-click="userCtrl.deleteUser(user)"><i class="fa fa-trash"></i> Delete</button>
+                    <button type="button" class="btn btn-xs" ng-class="user.active == 1 ? 'btn-info' : ''" ng-click="userCtrl.activeUser(user)"><i class="fa" ng-class="user.active == 1 ? 'fa-unlock' : 'fa-lock'"></i> <span ng-if="user.active == 0">Locked</span><span ng-if="user.active == 1">Active</span></button>
                 </td>
             </tr>
         </tbody>

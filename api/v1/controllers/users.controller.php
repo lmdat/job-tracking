@@ -1,5 +1,8 @@
 <?php
 use App\Models\User;
+use App\Models\Task;
+use App\Models\Progress;
+use App\Models\Comment;
 use App\Models\Role;
 use App\Models\Otp;
 use App\Models\Setting;
@@ -151,6 +154,42 @@ $app->post('/users(/)', function() use($app){
         
 });
 
+$app->delete('/users/:uid(/)', function($uid=null) use($app){
+    //$app->log->debug($uid);
+    
+    $task_ids = Task::where('user_id', '=', $uid)->lists('id');
+    $app->log->debug($task_ids);
+    
+    if(count($task_ids) > 0){
+        //Delete Progress
+        Progress::whereIn('task_id', $task_ids)->delete();
+        
+        //Delete Comment
+        Comment::whereIn('task_id', $task_ids)->delete();
+        
+        //Delete Task
+        Task::where('user_id', '=', $uid)->delete();
+    }
+    
+    User::where('id', '=', $uid)->delete();
+            
+    $app->response()->header("Content-Type", "application/json");
+    echo json_encode(['id' => $uid]);
+});
+
+$app->get('/users/active/:uid(/)', function($uid=null) use($app){
+    $app->log->debug($uid);
+    
+    $user = User::find($uid);
+    if($user !== null){
+        $a = 1 - $user->active;
+        User::where('id', '=', $uid)->update(['active' => $a]);
+    }
+    
+    $app->response()->header("Content-Type", "application/json");
+    echo json_encode(['id' => $uid]);
+});
+
 
 $app->post('/users/authenticate(/)', function() use($app){
     
@@ -171,6 +210,9 @@ $app->post('/users/authenticate(/)', function() use($app){
         if($result == -1){
             $rs['error_msg'] = $_identity . ' is not found.';
         }
+        else if($result == -2){
+            $rs['error_msg'] = 'Your account is being locked.';
+        }
         else{
             $rs['error_msg'] = 'Password is not correct.';
         }
@@ -179,7 +221,6 @@ $app->post('/users/authenticate(/)', function() use($app){
     else{
         $rs['token'] = $result;
         $rs['authorized'] = true;
-        
     }
     
     $app->log->debug($rs);
@@ -373,3 +414,4 @@ $app->put('/user/forget-password(/)', function() use($app){
     $app->response()->header("Content-Type", "application/json");
     echo $rs;
 });
+

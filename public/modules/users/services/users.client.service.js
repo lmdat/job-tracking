@@ -22,6 +22,11 @@ userModuleService.factory('User', ['$resource',
                 method: 'PUT'
             },
             
+            activeUser:{
+                url: api_url + '/users/active/:uid',
+                method: 'GET'
+            },
+            
             getRoles:{
                 url: api_url + '/user/:power/roles',
                 params:{ 

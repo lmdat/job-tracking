@@ -26,12 +26,15 @@ class TokenAuthentication{
         $password_field = $this->config['auth_field']['password'];
         
         
-        $this->identity = User::where('active', '=', 1)
-            ->where($identity_field, '=', $_identity)
+        $this->identity = User::where($identity_field, '=', $_identity)            
+            //->where('active', '=', 1)
             ->first();
         
         if($this->identity === null)
             return -1; // Idenity no found
+        
+        if($this->identity->active == 0)
+            return -2;
         
         $arr_val = $this->identity->toArray();
         

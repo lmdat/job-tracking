@@ -1,4 +1,5 @@
 RewriteEngine On
+RewriteBase /job-tracking
 
 # Some hosts may require you to use the `RewriteBase` directive.
 # If you need to use the `RewriteBase` directive, it should be the
