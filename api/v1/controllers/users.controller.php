@@ -309,60 +309,71 @@ $app->put('/user/:uid/password(/)', function($uid=null) use($app){
 
 $app->post('/user/forget-password/otp(/)', function() use($app, $twig){
     
-    $data = json_decode($app->request->getBody(), true);
-    //$app->log->debug($data);
-    
-    $user = User::where('email', '=', $data['email'])->first();
-    //$app->log->debug($user->toArray());
-    
     $rs = '';
-    if($user !== null){
-        $otp_data = Vii::createOTP();
-        //$app->log->debug($otp_data);
-        $otp = new Otp([
-            'user_id' => $user->id,
-            'otp_key' => $otp_data['otp_key'],
-            'otp_hash' => $otp_data['otp_hash'],
-            'expired_at' => date('Y-m-d H:i:s', strtotime("+30 minutes"))
-        ]);
-        
-        $otp->save();
-        
-        //Send mail
-        $mailer = Vii::getMailer();
-        $mailer->isHTML(true);
-        //$mailer->SMTPDebug = 2;
-        $app->log->debug($mailer);
-        
-        $mailer->addAddress($user->email, $user->first_name . ' ' . $user->surname);
-        
-        $mailer->Subject = 'Job Tracking - Request OTP Code';
-        
-        $mailer->Body = $twig->render(
-            '@email_template/request-otp.html',
-            array(
-                'otp_code'=>$otp_data['otp_code'],
-                'otp_key'=>$otp_data['otp_key'],
-                'expired_at'=>$otp->expired_at
-            )
-        );
-        
-        
-        if($mailer->send()){
-            $rs = json_encode([
-                'message' => 'Your OTP code is send to email: '. $data['email'] . '! Please check this email to get the OTP code.',
-                'otp_key' => $otp_data['otp_key']
+    
+    $mailer = Vii::getMailer();
+    
+    if($mailer == null){
+        $app->response->setStatus(400);
+        $rs = json_encode(['message' => 'SMTP setting is not found.']);
+    }
+    else{
+                          
+        $data = json_decode($app->request->getBody(), true);
+
+        //$app->log->debug($data);
+
+        $user = User::where('email', '=', $data['email'])->first();
+        //$app->log->debug($user->toArray());
+
+
+        if($user !== null){
+            $otp_data = Vii::createOTP();
+            //$app->log->debug($otp_data);
+            $otp = new Otp([
+                'user_id' => $user->id,
+                'otp_key' => $otp_data['otp_key'],
+                'otp_hash' => $otp_data['otp_hash'],
+                'expired_at' => date('Y-m-d H:i:s', strtotime("+30 minutes"))
             ]);
+
+            $otp->save();
+
+            //Send mail
+            $mailer->isHTML(true);
+            //$mailer->SMTPDebug = 2;
+            //$app->log->debug($mailer);
+
+            $mailer->addAddress($user->email, $user->first_name . ' ' . $user->surname);
+
+            $mailer->Subject = 'Job Tracking - Request OTP Code';
+
+            $mailer->Body = $twig->render(
+                '@email_template/request-otp.html',
+                array(
+                    'otp_code'=>$otp_data['otp_code'],
+                    'otp_key'=>$otp_data['otp_key'],
+                    'expired_at'=>$otp->expired_at
+                )
+            );
+
+
+            if($mailer->send()){
+                $rs = json_encode([
+                    'message' => 'Your OTP code is send to email: '. $data['email'] . '! Please check this email to get the OTP code.',
+                    'otp_key' => $otp_data['otp_key']
+                ]);
+            }
+            else{
+                $app->response->setStatus(400);
+                $rs = json_encode(['message' => 'Send mail error: ' . $mailer->ErrorInfo]);
+            }
+
         }
         else{
             $app->response->setStatus(400);
-            $rs = json_encode(['message' => 'Send mail error: ' . $mailer->ErrorInfo]);
+            $rs = json_encode(['message' => 'Email: '. $data['email'] . ' does not exist!']);
         }
-        
-    }
-    else{
-        $app->response->setStatus(400);
-        $rs = json_encode(['message' => 'Email: '. $data['email'] . ' does not exist!']);
     }
     
     $app->response()->header("Content-Type", "application/json");

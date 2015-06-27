@@ -349,9 +349,12 @@ userModuleCtrl.controller('SettingController', ['$scope', '$stateParams', '$stat
         this.smtp = {};
         this.showSMTPForm = false;
         
+        this.schedule = {};
+        this.showScheduleForm = false;
         
         this.getSettings = function(){
             this.showSMTPForm = false;
+            this.showScheduleForm = false;
             Setting.get(
                 {
                 },
@@ -364,8 +367,16 @@ userModuleCtrl.controller('SettingController', ['$scope', '$stateParams', '$stat
                         me.smtp.secure = 'none';
                         me.smtp.port = 25;
                     }
+                    
+                    if(angular.isDefined(res.schedule)){
+                        me.schedule = res.schedule;
+                    }
+                    else{
+                        me.schedule.remind_monday = false;
+                    }
 
                     me.showSMTPForm = true;
+                    me.showScheduleForm = true;
                 }
             );
             
@@ -387,6 +398,28 @@ userModuleCtrl.controller('SettingController', ['$scope', '$stateParams', '$stat
                 function(res){
                     $scope.message['smtp'] = res.message;
                     me.showSMTPForm = true;
+                    //console.log(res);
+                }
+                
+            );
+        };
+        
+        this.saveSchedule = function(){
+            $scope.message['schedule'] = '';
+            $scope.error['schedule'] = false;
+            this.showScheduleForm = false;
+            
+            var setting = new Setting({
+                'schedule': this.schedule
+            });
+            
+            setting.$save(
+                {
+                    section: 'schedule'
+                },
+                function(res){
+                    $scope.message['schedule'] = res.message;
+                    me.showScheduleForm = true;
                     //console.log(res);
                 }
                 

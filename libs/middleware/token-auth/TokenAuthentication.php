@@ -10,7 +10,8 @@ class TokenAuthentication{
         'auth_field' => array(
             'identity' => 'email',
             'password' => 'password'
-        )
+        ),
+        'token_expired' => 90 //mins
     );
     
     private $identity;
@@ -76,13 +77,14 @@ class TokenAuthentication{
             $token = Token::create(array(
                 'user_id'=>$this->identity->id,
                 'access_token'=>$access_token,
-                'expired_at'=>date('Y-m-d H:i:s', strtotime('+90 minute'))
+                'expired_at'=>date('Y-m-d H:i:s', strtotime('+' . $this->config['token_expired'] . ' minute'))
+                
             ));
             
         }
         else{
             $token->access_token = $access_token;
-            $token->expired_at = date('Y-m-d H:i:s', strtotime('+90 minute'));
+            $token->expired_at = date('Y-m-d H:i:s', strtotime('+' . $this->config['token_expired'] . ' minute'));
         }
         
         $token->save();

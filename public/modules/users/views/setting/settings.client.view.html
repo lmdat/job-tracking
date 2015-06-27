@@ -1,79 +1,110 @@
 <section ng-controller="SettingController as settingCtrl" ng-init="settingCtrl.getSettings()">
-    <div class="page-header">
-      <h3>Mail Setting <small>SMTP Account Setting</small></h3>
+    <div class="container-fluid">
+        <div class="page-header">
+          <h3>Mail Setting <small>SMTP Account Setting</small></h3>
+        </div>
+        <div class="spinner animated" ng-class="settingCtrl.showSMTPForm == false ? 'fadeIn' : 'hide'"><i class="fa fa-spinner fa-spin"></i> Loading...</div>
+
+        <div class="container-fluid col-sm-10 animated" ng-class="settingCtrl.showSMTPForm == true ? 'fadeIn' : 'hide'">
+            <div class="col-sm-8 col-sm-offset-3">
+                <div ng-hide="!message['smtp']" class="row alert alert-msg" role="alert" ng-class="error['smtp']==true ? 'alert-danger' : 'alert-success'">
+                    <strong ng-if="error['smtp']">Oh snap!</strong><strong ng-if="!error['smtp']">Well done!</strong> {{message['smtp']}}
+                </div>
+            </div>  
+            <form name="smtpForm" class="form-horizontal">
+
+                <div class="form-group">
+                    <label for="secure_ssl" class="col-sm-3 control-label">Secure</label>
+                    <div class="col-sm-8">
+                        <label class="radio-inline">
+                            <input type="radio" name="secure_ssl" id="secure_ssl" ng-model="settingCtrl.smtp.secure" value="none" ng-click="settingCtrl.smtp.port=25"> <span>None</span>
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="secure_ssl" id="secure_ssl" ng-model="settingCtrl.smtp.secure" value="ssl" ng-click="settingCtrl.smtp.port=465"> <span>SSL/TSL</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-class="{'has-error': smtpForm.port.$invalid}">
+                    <label for="port" class="col-sm-3 control-label">Port</label>
+                    <div class="col-sm-8">
+                        <input type="number" class="form-control" id="port" name="port" ng-model="settingCtrl.smtp.port" placeholder="Default port=25 if None Secure is selected" required>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-class="{'has-error': smtpForm.host_name.$invalid}">
+                    <label for="host_name" class="col-sm-3 control-label">Host Name/IP</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="host_name" name="host_name" ng-model="settingCtrl.smtp.host_name" placeholder="mail.hostname / 192.169.1.1" required>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-class="{'has-error': smtpForm.email_sender.$invalid}">
+                    <label for="email_sender" class="col-sm-3 control-label">Email Sender</label>
+                    <div class="col-sm-8">
+                        <input type="email" class="form-control" id="email_sender" name="email_sender" ng-model="settingCtrl.smtp.email_sender" placeholder="" required>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-class="{'has-error': smtpForm.sender_name.$invalid}">
+                    <label for="sender_name" class="col-sm-3 control-label">Sender Name</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="sender_name" name="sender_name" ng-model="settingCtrl.smtp.sender_name" placeholder="" required>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-class="{'has-error': smtpForm.username.$invalid}">
+                    <label for="username" class="col-sm-3 control-label">SMTP's Username</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="username" name="username" ng-model="settingCtrl.smtp.username" placeholder="Normally, it's the email account" required>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-class="{'has-error': smtpForm.password.$invalid}">
+                    <label for="pa" class="col-sm-3 control-label">SMTP's Password</label>
+                    <div class="col-sm-8">
+                        <input type="password" class="form-control" id="password" name="password" ng-model="settingCtrl.smtp.password" placeholder="" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-8 col-sm-offset-3">
+                        <button class="btn btn-success" ng-disabled="smtpForm.$invalid" ng-click="settingCtrl.saveSMTP()">Save</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
     </div>
-    <div class="spinner animated" ng-class="settingCtrl.showSMTPForm == false ? 'fadeIn' : 'hide'"><i class="fa fa-spinner fa-spin"></i> Loading...</div>
     
-    <div class="container-fluid col-sm-10 animated" ng-class="settingCtrl.showSMTPForm == true ? 'fadeIn' : 'hide'">
-        <div class="col-sm-8 col-sm-offset-3">
-            <div ng-hide="!message['smtp']" class="row alert alert-msg" role="alert" ng-class="error['smtp']==true ? 'alert-danger' : 'alert-success'">
-                <strong ng-if="error['smtp']">Oh snap!</strong><strong ng-if="!error['smtp']">Well done!</strong> {{message['smtp']}}
-            </div>
-        </div>  
-        <form name="settingForm" class="form-horizontal">
-            
-            <div class="form-group">
-                <label for="secure_ssl" class="col-sm-3 control-label">Secure</label>
-                <div class="col-sm-8">
-                    <label class="radio-inline">
-                        <input type="radio" name="secure_ssl" id="secure_ssl" ng-model="settingCtrl.smtp.secure" value="none" ng-click="settingCtrl.smtp.port=25"> <span>None</span>
-                    </label>
-                    <label class="radio-inline">
-                        <input type="radio" name="secure_ssl" id="secure_ssl" ng-model="settingCtrl.smtp.secure" value="ssl" ng-click="settingCtrl.smtp.port=465"> <span>SSL/TSL</span>
-                    </label>
+    <div class="container-fluid">
+        <div class="page-header">
+          <h3>Schedule Setting <small></small></h3>
+        </div>
+        
+        <div class="spinner animated" ng-class="settingCtrl.showScheduleForm == false ? 'fadeIn' : 'hide'"><i class="fa fa-spinner fa-spin"></i> Loading...</div>
+        
+        <div class="container-fluid col-sm-10 animated" ng-class="settingCtrl.showScheduleForm == true ? 'fadeIn' : 'hide'">
+            <form name="scheduleForm" class="form-horizontal">
+                <div class="form-group">
+                    <label for="pa" class="col-sm-3 control-label">Email Remind</label>
+                    <div class="col-sm-8">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="remind_monday" id="remind_monday" ng-model="settingCtrl.schedule.remind_monday"> <span>Remind jobs for user every Monday.</span>
+                            </label>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            
-            <div class="form-group" ng-class="{'has-error': settingForm.port.$invalid}">
-                <label for="port" class="col-sm-3 control-label">Port</label>
-                <div class="col-sm-8">
-                    <input type="number" class="form-control" id="port" name="port" ng-model="settingCtrl.smtp.port" placeholder="Default port=25 if None Secure is selected" required>
+                
+                <div class="form-group">
+                    <div class="col-sm-8 col-sm-offset-3">
+                        <button class="btn btn-success" ng-disabled="scheduleForm.$invalid" ng-click="settingCtrl.saveSchedule()">Save</button>
+                    </div>
                 </div>
-            </div>
-            
-            <div class="form-group" ng-class="{'has-error': settingForm.host_name.$invalid}">
-                <label for="host_name" class="col-sm-3 control-label">Host Name/IP</label>
-                <div class="col-sm-8">
-                    <input type="text" class="form-control" id="host_name" name="host_name" ng-model="settingCtrl.smtp.host_name" placeholder="mail.hostname / 192.169.1.1" required>
-                </div>
-            </div>
-            
-            <div class="form-group" ng-class="{'has-error': settingForm.email_sender.$invalid}">
-                <label for="email_sender" class="col-sm-3 control-label">Email Sender</label>
-                <div class="col-sm-8">
-                    <input type="email" class="form-control" id="email_sender" name="email_sender" ng-model="settingCtrl.smtp.email_sender" placeholder="" required>
-                </div>
-            </div>
-            
-            <div class="form-group" ng-class="{'has-error': settingForm.sender_name.$invalid}">
-                <label for="sender_name" class="col-sm-3 control-label">Sender Name</label>
-                <div class="col-sm-8">
-                    <input type="text" class="form-control" id="sender_name" name="sender_name" ng-model="settingCtrl.smtp.sender_name" placeholder="" required>
-                </div>
-            </div>
-            
-            <div class="form-group" ng-class="{'has-error': settingForm.username.$invalid}">
-                <label for="username" class="col-sm-3 control-label">SMTP's Username</label>
-                <div class="col-sm-8">
-                    <input type="text" class="form-control" id="username" name="username" ng-model="settingCtrl.smtp.username" placeholder="Normally, it's the email account" required>
-                </div>
-            </div>
-            
-            <div class="form-group" ng-class="{'has-error': settingForm.password.$invalid}">
-                <label for="pa" class="col-sm-3 control-label">SMTP's Password</label>
-                <div class="col-sm-8">
-                    <input type="password" class="form-control" id="password" name="password" ng-model="settingCtrl.smtp.password" placeholder="" required>
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <div class="col-sm-8 col-sm-offset-3">
-                    <button class="btn btn-success" ng-disabled="settingForm.$invalid" ng-click="settingCtrl.saveSMTP()">Save</button>
-                </div>
-            </div>
-            
-        </form>
+                
+            </form>
+        </div>
     </div>
-    
     
 </section>

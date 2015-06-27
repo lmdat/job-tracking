@@ -65,13 +65,17 @@ class Vii{
 	}	
     
     public static function getMailer($cfg=null){
-        //use App\Models\Setting;
         
-        $setting = \App\Models\Setting::find(1);
-        $setting_data = json_decode($setting->setting_data, true);
-        if($cfg == null)
+        if($cfg == null){
+            //use App\Models\Setting;
+            $setting = \App\Models\Setting::find(1);
+            $setting_data = json_decode($setting->setting_data, true);
+            if(!isset($setting_data['smtp']))
+                return null;
+            
             $cfg = $setting_data['smtp']; 
-        
+        }
+                        
         $mailer = new \PHPMailer();
         $mailer->isSMTP();
         $mailer->CharSet = 'utf-8';

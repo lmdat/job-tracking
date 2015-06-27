@@ -3,6 +3,7 @@
 $assets = array(
     
     'timeZone'=>'Asia/Saigon',
+    'expiredTokenTime' => 120, //mins
     
     'lib'=>array(
         'cssFiles'=>array(

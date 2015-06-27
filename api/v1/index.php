@@ -13,7 +13,7 @@ $app = new \Slim\Slim(array(
 
 $app->add(new \Slim\Extras\Middleware\Jsonp());
 
-$app->auth = new \Slim\libs\Middleware\Token\TokenAuthentication();
+$app->auth = new \Slim\libs\Middleware\Token\TokenAuthentication(['token_expired' => $assets['expiredTokenTime']]);
 
 $app->add(new \Slim\libs\Middleware\Token\TokenAuthorization());
 
