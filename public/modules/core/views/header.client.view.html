@@ -1,38 +1,38 @@
-<section ng-controller="HeaderController as headerCtrl" ng-init="headerCtrl.initUserMenu()">
-    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-        <div class="container-fluid header-bar">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a ui-sref="dashboard" class="navbar-brand">Job Tracking</a>
-            </div>
-            
-            <ul class="nav navbar-right navbar-nav" ng-hide="!headerCtrl.authentication.authorized">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle menu-color" data-toggle="dropdown"><i class="fa fa-user"></i> {{headerCtrl.authentication.user.first_name + ' ' + headerCtrl.authentication.user.surname}} <b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li ng-repeat="item in headerCtrl.userMenu">
-                            <a ui-sref="{{item.url_name}}" ui-sref-active="{{item.active_class}}"><span ng-bind-html="item.icon"></span> <span ng-bind="item.title"></span></a>
-                        </li>
-                        
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#" ng-click="$event.preventDefault(); headerCtrl.signout()"><i class="fa fa-power-off"></i> Sign Out</a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-            
-            <ul class="nav navbar-right navbar-nav" ng-hide="headerCtrl.authentication.authorized">
-                <li>
-                    <a ui-sref="signin" ui-sref-active="active"><i class="fa fa-sign-in"></i> Sign In</a>
-                </li>
-            </ul>
-            
-        </div><!--container-fluid-->
-    </nav>
-</section>
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation" ng-controller="HeaderController as headerCtrl" ng-init="headerCtrl.initUserMenu()">
+    <div class="header-bar container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" ng-click="isCollapsed = !isCollapsed">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a ui-sref="dashboard" class="navbar-brand">Job Tracking</a>
+        </div>
+
+        <ul class="nav navbar-right navbar-nav" ng-hide="!headerCtrl.authentication.authorized">
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle menu-color" data-toggle="dropdown"><i class="fa fa-user"></i> {{headerCtrl.authentication.user.first_name + ' ' + headerCtrl.authentication.user.surname}} <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li ng-repeat="item in headerCtrl.userMenu">
+                        <a ui-sref="{{item.url_name}}" ui-sref-active="{{item.active_class}}"><span ng-bind-html="item.icon"></span> <span ng-bind="item.title"></span></a>
+                    </li>
+
+                    <li class="divider"></li>
+                    <li>
+                        <a href="#" ng-click="$event.preventDefault(); headerCtrl.signout()"><i class="fa fa-power-off"></i> Sign Out</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+        <ul class="nav navbar-right navbar-nav" ng-hide="headerCtrl.authentication.authorized">
+            <li>
+                <a ui-sref="signin" ui-sref-active="active"><i class="fa fa-sign-in"></i> Sign In</a>
+            </li>
+        </ul>
+    </div>
+    
+    <ng-include src="'public/modules/core/views/sidebar.client.view.html'"></ng-include>
+    
+</nav>

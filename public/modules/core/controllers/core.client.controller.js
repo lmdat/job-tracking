@@ -9,6 +9,17 @@ coreModuleCtrl.controller('HeaderController', ['$scope', '$rootScope', '$http', 
         
         this.authentication = $localStorage.auth;
         
+        $scope.isCollapsed = true;
+        
+        this.sidebarMenu = [
+            {
+                id: 1,
+                title: 'Dashboard',
+                url_name: 'dashboard',
+                active_class: 'active',
+                icon: "<i class='fa fa-dashboard'></i>"
+            }
+        ];
         
         this.userMenu = [];
         
@@ -51,69 +62,6 @@ coreModuleCtrl.controller('HeaderController', ['$scope', '$rootScope', '$http', 
                 );
                 
             }
-        };
-        
-        this.clearAuth = function(){
-            delete this.authentication;
-            delete $localStorage.auth;
-            
-            if(!angular.isUndefined($http.defaults.headers.common['Authorized-Token'])){
-                $http.defaults.headers.common['Authorized-Token'] = '';
-            }
-            
-            $rootScope.$emit('$signoutNotify');
-        }
-        
-        this.signout = function(){
-            
-            this.clearAuth();
-            $state.go('signin');
-            
-        };
-        
-        $rootScope.$on('$tokenExpiredNotify', function(event, data){
-            me.clearAuth();
-        });
-        
-        $rootScope.$on('$authenticatedNotifySuccess', function(){
-            me.authentication = $localStorage.auth;
-            //console.log('$authenticatedNotifySuccess');
-            //console.log(me.authentication);
-            me.initUserMenu();
-        });
-       
-	}
-]);
-
-
-coreModuleCtrl.controller('SidebarController', ['$scope', '$rootScope', '$state', '$http', '$localStorage',
-	function($scope, $rootScope, $state, $http, $localStorage) {
-        
-        var me = this;
-        
-        this.authentication = $localStorage.auth;
-        
-        this.sidebarMenu = [
-            {
-                id: 1,
-                title: 'Dashboard',
-                url_name: 'dashboard',
-                active_class: 'active',
-                icon: "<i class='fa fa-dashboard'></i>"
-            }
-        ];
-        
-        
-        
-        this.initMenu = function(){
-            
-            var _role = 0;
-            if(angular.isDefined(this.authentication)){
-                //_role = parseInt(this.authentication.user.role_powering);
-                _role = this.authentication.user.role_powering;
-            }
-            
-            //console.log('SidebarController Role: ' + _role);
             
             switch(_role){
                 case 900:
@@ -196,24 +144,17 @@ coreModuleCtrl.controller('SidebarController', ['$scope', '$rootScope', '$state'
                     
               
             }//End Switch
-                
-            
-            //console.log('Menu Items');
-            //console.log(this.sidebarMenu);
         };
         
-        
-        $rootScope.$on('$authenticatedNotifySuccess', function(){
-            me.authentication = $localStorage.auth;
-            //console.log('Sidebar Controller');
-            me.initMenu();
-        });
-        
-        $rootScope.$on('$signoutNotify', function(){
-            delete me.authentication;
+        this.clearAuth = function(){
+            delete this.authentication;
             delete $localStorage.auth;
             
-            me.sidebarMenu = [
+            if(!angular.isUndefined($http.defaults.headers.common['Authorized-Token'])){
+                $http.defaults.headers.common['Authorized-Token'] = '';
+            }
+            
+            this.sidebarMenu = [
                 {
                     id: 1,
                     title: 'Dashboard',
@@ -222,11 +163,31 @@ coreModuleCtrl.controller('SidebarController', ['$scope', '$rootScope', '$state'
                     icon: "<i class='fa fa-dashboard'></i>"
                 }
             ];
+        }
+        
+        this.signout = function(){
+            
+            this.clearAuth();
+            $state.go('signin');
+            
+        };
+        
+        $rootScope.$on('$tokenExpiredNotify', function(event, data){
+            me.clearAuth();
         });
         
-            
+        $rootScope.$on('$authenticatedNotifySuccess', function(){
+            me.authentication = $localStorage.auth;
+            //console.log('$authenticatedNotifySuccess');
+            //console.log(me.authentication);
+            me.initUserMenu();
+        });
         
-    }
+        $rootScope.$on('$stateChangeSuccess', function () {
+            $scope.isCollapsed = true;
+        });
+       
+	}
 ]);
 
 

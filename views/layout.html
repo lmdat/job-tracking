@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>JOB TRACKING</title>
+
+    {% for cssFile in assets.lib.cssFiles %}
+    <link rel="stylesheet" href="{{cssFile}}"/>
+    {% endfor%}
+    
+    {% for cssFile in assets.local.cssFiles %}
+    <link rel="stylesheet" href="{{cssFile}}"/>
+    {% endfor%}
+    
+    {% for jsFile in assets.lib.jsFiles %}
+    <script src="{{jsFile}}"></script>
+    {% endfor%}
+    
+    {% for jsFile in assets.local.jsFiles %}
+    <script src="{{jsFile}}"></script>
+    {% endfor%}
+
+</head>
+<body>
+    <ng-include src="'public/modules/core/views/header.client.view.html'"></ng-include>
+    
+    <div id="wrapper">
+        <!--Main Content-->
+        <div class="main-content container-fluid">
+            {% block content %}{% endblock %}
+        </div>
+        
+    </div>
+    
+    <footer class="footer">
+        <div class="container-fluid">
+            <p class="pull-left text-muted">Vincent Le | Copyright &copy; 2015</p>
+        </div>
+    </footer>
+    
+    <!--Application JavaScript Files-->
+    {% for jsFile in assets.js %}
+    <script src="{{jsFile}}"></script>
+    {% endfor%}
+</body>
+</html>
