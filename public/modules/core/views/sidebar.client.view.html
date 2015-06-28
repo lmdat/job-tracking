@@ -3,6 +3,9 @@
         <li ng-repeat="item in headerCtrl.sidebarMenu">
             <a ui-sref="{{item.url_name}}" ui-sref-active="{{item.active_class}}"><span ng-bind-html="item.icon"></span> <span ng-bind="item.title"></span></a>
         </li>
+        <li>
+            <a href="video-guides/index.html" target="_blank"><i class="fa fa-book"></i> Video Guides</a>
+        </li>
     </ul>
 
 
@@ -10,6 +13,10 @@
         <li class="disabled" ng-repeat="item in headerCtrl.sidebarMenu">
             <a><span ng-bind-html="item.icon"></span> <span ng-bind="item.title"></span></a>
         </li>
-
+        
+        <li>
+            <a href="video-guides/index.html" target="_blank"><i class="fa fa-book"></i> Video Guides</a>
+        </li>
+        
     </ul>
 </div>

@@ -41,7 +41,7 @@ angular.module(AppConfiguration.appModuleName, AppConfiguration.appModuleVendorD
             $http.defaults.headers.common['Authorized-Token'] = $localStorage.auth.access_token;
         }
         
-        $rootScope.$on('$routeChangeStart', function(event, next, current) {
+        $rootScope.$on('$stateChangeSuccess', function(event, next, current) {
             //if (typeof(current) !== 'undefined'){
             if(angular.isDefined(current)){
                 $templateCache.remove(current.templateUrl);
